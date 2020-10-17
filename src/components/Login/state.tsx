@@ -1,5 +1,6 @@
 import { ChangeEvent, MouseEvent as EventMouse, useState } from "react";
 import callApi from "../../utils/callApi";
+import { saveToken } from "../../utils/storage";
 
 export default function useLoginState() {
     const [emailOrUsername, setEmailOrUsername] = useState<string>('');
@@ -15,9 +16,14 @@ export default function useLoginState() {
                 emailusername: emailOrUsername,
                 password: password
             }
-        }).then((data) => {
-            if (!data.ok) setErrorMessage(data.message);
-            else setErrorMessage('');
+        }).then((response) => {
+            if (!response.ok) setErrorMessage(response.message);
+            else {
+                setErrorMessage('')
+                setEmailOrUsername('');
+                setPassword('');
+                saveToken(response.data.token)
+            };
         });
     }
 
