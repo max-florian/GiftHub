@@ -1,6 +1,7 @@
 const { sign } = require('jsonwebtoken');
 const response = require('./response');
 const mongo = require('../db');
+const bcrypt = require('bcrypt');
 
 function generateToken(payload) {
     const secret = process.env.JWT_SECRET;
@@ -8,6 +9,14 @@ function generateToken(payload) {
     return sign(payload, secret, {
         expiresIn: '2h',
     });
+}
+
+async function hashPassword(password) {
+    return await bcrypt.hash(password, 10);
+}
+
+async function comparePasswords(password, hashPassword) {
+    return await bcrypt.compare(password, hashPassword);
 }
 
 function login(req, res) {
@@ -27,7 +36,7 @@ function login(req, res) {
 
         if (user == null) return response(res, 404, false, 'No existe un usuario con el username o email ' + emailusername);
 
-        if (password !== user.password) {
+        if (!(await comparePasswords(password, user.password))) {
             return response(res, 400, false, 'La contraseña es incorrecta');
         }
 
