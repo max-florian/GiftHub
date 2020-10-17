@@ -11,7 +11,7 @@ export default function Login() {
                 <input
                     id="emailInput"
                     className="form-control"
-                    type="email"
+                    type="text"
                     onChange={emailOrUsername.onChange}
                     value={emailOrUsername.value} />
             </div>
