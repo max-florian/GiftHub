@@ -7,7 +7,9 @@ export default function Login() {
     return (
         <form>
             <div className="form-group">
-                <label htmlFor="emailInput">Correo electrónico o nombre de usuario</label>
+                <div style={{ display: 'flex' }}>
+                    <label style={{ fontSize: 20 }} htmlFor="emailInput">Correo electrónico o nombre de usuario</label>
+                </div>
                 <input
                     id="emailInput"
                     className="form-control"
@@ -16,7 +18,9 @@ export default function Login() {
                     value={emailOrUsername.value} />
             </div>
             <div className="form-group">
-                <label htmlFor="passwordInput">Contraseña</label>
+                <div style={{ display: 'flex' }}>
+                    <label style={{ fontSize: 20 }} htmlFor="passwordInput">Contraseña</label>
+                </div>
                 <input
                     id="passwordInput"
                     className="form-control"
@@ -24,11 +28,11 @@ export default function Login() {
                     onChange={password.onChange}
                     value={password.value} />
             </div>
-            <div className="row">
-                <div className="col">
-                    <button type="button" className="btn btn-secondary btn-block">Crear una cuenta</button>
+            <div className="row row-cols-1 row-cols-sm-2">
+                <div style={{ marginTop: 8 }} className="col">
+                    <button type="button" className="btn btn-secondary btn-block">Crea una cuenta</button>
                 </div>
-                <div className="col">
+                <div style={{ marginTop: 8 }} className="col">
                     <button type="submit" className="btn btn-primary btn-block" onClick={login.onClick}>Entrar</button>
                 </div>
             </div>
