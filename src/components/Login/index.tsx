@@ -2,7 +2,7 @@ import React from "react";
 import useLoginState from "./state";
 
 export default function Login() {
-    const { emailOrUsername, password } = useLoginState();
+    const { emailOrUsername, password, login, error } = useLoginState();
 
     return (
         <form>
@@ -29,9 +29,15 @@ export default function Login() {
                     <button type="button" className="btn btn-secondary btn-block">Crear una cuenta</button>
                 </div>
                 <div className="col">
-                    <button type="submit" className="btn btn-primary btn-block">Entrar</button>
+                    <button type="submit" className="btn btn-primary btn-block" onClick={login.onClick}>Entrar</button>
                 </div>
             </div>
+            {
+                error.message.length > 0 &&
+                <div style={{ marginTop: 8, fontSize: 16 }} className="alert alert-danger" role="alert">
+                    {error.message}
+                </div>
+            }
         </form>
     )
 }
