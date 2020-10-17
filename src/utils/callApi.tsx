@@ -1,6 +1,6 @@
 const apiUrl = 'http://localhost:4000/api';
 
-export default async function callApi({ uri, method = 'GET', body = {} }: Props) {
+export default async function callApi({ uri, method = 'POST', body = {} }: Props) {
     const httpResponse = await fetch(apiUrl + uri, {
         method, body: JSON.stringify(body), headers: {
             "Content-Type": 'application/json'
