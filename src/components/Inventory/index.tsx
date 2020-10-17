@@ -1,7 +1,7 @@
 import React from "react"
-import {useItemState} from "./state"
+import {useInventoryState, useItemState} from "./state"
 
-interface Card {
+export interface Card {
     id: string,
     name: string,
     image: string,
@@ -42,8 +42,8 @@ export function Item({card}: {card:Card}){
     const state = useItemState();
 
     return (
-        <div className="card">
-            <img className="card-img-top" src={card.image}/>
+        <div className="card h-100 w-100">
+            <img className="card-img-top h-75" src={card.image}/>
             <div className="card-body">
                 <h5 className="card-title text-center">{card.name}</h5>
                 <div className="row justify-content-center">
@@ -60,11 +60,12 @@ export function Item({card}: {card:Card}){
 }
 
 export default function Inventory(){
-    const inventory = [dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada];
+    const state = useInventoryState();
+    const items = state.items;
 
     return (
         <div className="row">
-            {inventory.map((item, index) => {
+            {items.value.map((item, index) => {
                 return (
                     <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex align-items-center justify-content-center mt-5">
                         <Item card={item}/>
