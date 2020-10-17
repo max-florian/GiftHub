@@ -42,7 +42,7 @@ export function Item({card}: {card:Card}){
     const state = useItemState();
 
     return (
-        <div className="card" style={{width: 350}}>
+        <div className="card">
             <img className="card-img-top" src={card.image}/>
             <div className="card-body">
                 <h5 className="card-title text-center">{card.name}</h5>
@@ -60,9 +60,17 @@ export function Item({card}: {card:Card}){
 }
 
 export default function Inventory(){
+    const inventory = [dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada, dataQuemada];
+
     return (
-        <>
-        <Item card={dataQuemada}/>
-        </>
+        <div className="row">
+            {inventory.map((item, index) => {
+                return (
+                    <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex align-items-center justify-content-center mt-5">
+                        <Item card={item}/>
+                    </div>
+                )
+            })}
+        </div>
     )
 }
