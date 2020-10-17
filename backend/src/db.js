@@ -8,7 +8,7 @@ client.connect(async err => {
     const db = client.db("gifthub");
 
     const items = await db.collection("users").find({}).toArray();
-    console.log(items)
+    console.log("Log items:",items)
 
     client.close();
 });
