@@ -8,7 +8,7 @@ export const navItems = [
     },
     {
         title:'Inventario',
-        path:'/inventario',
+        path:'/inventariousuario',
         icon:<i className="fas fa-th"></i>,
         cname:'nav-text'
     }
