@@ -1,5 +1,5 @@
 import { ChangeEvent, MouseEvent as EventMouse, useState } from "react";
-import callApi from "../../utils/callApi";
+import utils from "../../utils/callApi";
 import { saveToken } from "../../utils/storage";
 
 export default function useLoginState() {
@@ -9,7 +9,7 @@ export default function useLoginState() {
 
     const login = (e: EventMouse<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        callApi({
+        utils.callApi({
             uri: '/login',
             method: 'POST',
             body: {
