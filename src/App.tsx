@@ -4,7 +4,9 @@ import PagoTarjeta from "./components/PagoTarjeta";
 
 function App() {
   return (
-    <PagoTarjeta/>
+    <div>
+      <PagoTarjeta/>
+    </div>
   );
 }
 
