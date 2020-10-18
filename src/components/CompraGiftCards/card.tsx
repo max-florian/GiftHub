@@ -1,5 +1,23 @@
-import React from "react";
-import compraState from "./useState";
+import React ,{useState}from "react";
+export function useElements() {
+    const [id, setid] = useState(0);
+    const [added, setadded] = useState(0);
+
+    //Eventos de cambio de inputs
+   
+    return {
+    }
+}
+
+export interface CardInterface {
+    id: string,
+    name: string,
+    image: string,
+    chargeRate: number,
+    active: boolean,
+    availability: Array<number>,
+    price?: number
+}
 
 export function getDAta() {
     let resp;
@@ -18,26 +36,32 @@ export function getDAta() {
     return resp;
 }
 
-export default function Card() {
-    return (
+export default function Card(props:any) {
+    function addTocart(){
 
+    }
+
+    return (
         <div className='card'> 
-            <img className="card-img-top" src="https://media.karousell.com/media/photos/products/2020/5/21/rm50_goggle_play_gift_card_mal_1590040469_c1100b5a_progressive.jpg" alt="Card image cap"/>
+            <img className="card-img-top" src={props.image} alt="Card image cap"/>
             <div className="card-body">
-                <h5 className="card-title" style={{color:"black"}}>Google Play</h5>
+                <h5 className="card-title" style={{color:"black"}}>{props.name}</h5>
                 <p className="card-text" style={{color:"black"}}>Info</p>
-                <div className="input-group">
+                <button className="btn btn-success" type="button" >
+                <i className="fas fa-cart-plus"></i> Comprar
+                </button>
+                {/* <div className="input-group">
                     <div className="input-group-prepend">
                         <button className="btn btn-outline-secondary" type="button">-</button>
                         <button className="btn btn-outline-secondary" type="button">+</button>
                     </div>
                     <input type="text" className="form-control" placeholder="0" aria-label="Recipient's username" aria-describedby="basic-addon2" readOnly/>
                     <div className="input-group-append">
-                        <button className="btn btn-success" type="button">
+                        <button className="btn btn-success" type="button" >
                             <span className="fa fa-cart"></span> Agregar
                         </button>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
         

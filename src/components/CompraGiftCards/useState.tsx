@@ -1,37 +1,29 @@
-import { ChangeEvent, MouseEvent as EventMouse, useState } from "react";
+import { ChangeEvent, MouseEvent as EventMouse, useState, useEffect } from "react";
+import {CardInterface} from './card'
 
 
-export default function compraState() {
-    const [emailOrUsername, setEmailOrUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [errorMessage, setErrorMessage] = useState<string>('');
-
-    const login = (e: EventMouse<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-    }
-
-    const onChangeEmailOrUsername = (event: ChangeEvent<HTMLInputElement>) => {
-        setEmailOrUsername(event.target.value);
-    }
-
-    const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-    }
+export default function cardsState() {
+    const [cards, setCards] = useState<Array<CardInterface>>(new Array<CardInterface>());
+    useEffect(() => {
+        let cards2: Array<CardInterface>;
+        fetch("https://my-json-server.typicode.com/CoffeePaw/AyD1API/Card")
+        .then(res => res.json())
+        .then((result) => {
+                setCards(result)
+            },
+            (error) => {
+                console.log(error)
+                setCards(new Array<CardInterface>())
+            }
+        )
+        .then(
+            () => fetch("https://my-json-server.typicode.com/CoffeePaw/AyD1API/Value")
+        )
+    }, []);
 
     return {
-        emailOrUsername: {
-            value: emailOrUsername,
-            onChange: onChangeEmailOrUsername
-        },
-        password: {
-            value: password,
-            onChange: onChangePassword
-        },
-        login: {
-            onClick: login
-        },
-        error: {
-            message: errorMessage
+        cards:{
+            val:cards
         }
     }
 }
