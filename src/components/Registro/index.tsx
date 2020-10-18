@@ -7,7 +7,9 @@ export default function Registro() {
     return (
         <form>
             <div className="form-group">
-                <label htmlFor="nombreInput">Nombre</label>
+                <div style={{ display: 'flex' }}>
+                    <label htmlFor="nombreInput">Nombre</label>
+                </div>
                 <input
                     id="nombreInput"
                     className="form-control"
@@ -16,7 +18,9 @@ export default function Registro() {
                     value={nombre.value} />
             </div>
             <div className="form-group">
-                <label htmlFor="idInput">ID</label>
+                <div style={{ display: 'flex' }}>
+                    <label htmlFor="idInput">ID</label>
+                </div>
                 <input
                     id="idInput"
                     className="form-control"
@@ -25,7 +29,9 @@ export default function Registro() {
                     value={id.value} />
             </div>
             <div className="form-group">
-                <label htmlFor="emailInput">Correo electrónico</label>
+                <div style={{ display: 'flex' }}>
+                    <label htmlFor="emailInput">Correo electrónico</label>
+                </div>
                 <input
                     id="emailInput"
                     className="form-control"
@@ -34,7 +40,9 @@ export default function Registro() {
                     value={email.value} />
             </div>
             <div className="form-group">
-                <label htmlFor="contrasenaInput">Contraseña</label>
+                <div style={{ display: 'flex' }}>
+                    <label htmlFor="contrasenaInput">Contraseña</label>
+                </div>
                 <input
                     id="contrasenaInput"
                     className="form-control"
@@ -43,7 +51,7 @@ export default function Registro() {
                     value={contrasena.value} />
             </div>
             <div className="row">
-                <div className="col">
+                <div style={{ marginTop: 8 }} className="col">
                     <button type="submit" className="btn btn-primary btn-block" onClick={registro.onClick}>Registrarse</button>
                 </div>
             </div>
