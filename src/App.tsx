@@ -3,14 +3,17 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import  Navbar  from "./components/mainLayout/Navbar"
+import UserInventory from './components/UserInventory/index'
+import Home from './components/Home/Index'
 
 function App() {
   return (
     <>
       <Router>
-        <Navbar></Navbar>
+        <Navbar/>
         <Switch>
-          <Route path='/'></Route>
+          <Route path='/' exact component={Home}></Route>
+          <Route path='/inventariousuario' exact component={UserInventory}></Route>
         </Switch>
       </Router>
     </>

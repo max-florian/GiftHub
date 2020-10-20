@@ -2,7 +2,7 @@ const apiUrl = 'http://localhost:4000/api';
 
 async function callApi({ uri, method = 'GET', body = {} }: Props) {
     const httpResponse = await fetch(apiUrl + uri, {
-        method, body: JSON.stringify(body), headers: {
+        method, body: method == 'GET'?null:JSON.stringify(body), headers: {
             "Content-Type": 'application/json'
         }
     })

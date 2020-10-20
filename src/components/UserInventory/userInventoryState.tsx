@@ -16,25 +16,27 @@ export function useCardState(){
 export function useInventoryState(){
     const [items, setItems] = useState<Array<UserCard>>(new Array<UserCard>())
     const [errorMessage, setErrorMessage] = useState<string>('')
-    const user = getToken();
+    //const user = getToken();
     useEffect(() => {
-        let cardsAvailable: Array<UserCard>;
-        utils.callApi({
-            uri: '/userCards/get',
-            method: 'POST',
-            body: {
-                user: "5f8687c57ae02f2fe580161a",
-            }
-        }).then((response) => {
-            if (!response.ok){
-                setErrorMessage(response.message);
-                setItems(new Array<UserCard>())
-            }
-            else {
-                setErrorMessage('');
-                setItems(response.data);
-            };
-        });
+        try{
+            utils.callApi({
+                uri: '/userCards/5f8687c57ae02f2fe580161a',
+                method: 'GET',
+                body: {}
+            }).then((response) => {
+                if (!response.ok){
+                    setErrorMessage(response.message);
+                    setItems(new Array<UserCard>())
+                }
+                else {
+                    setErrorMessage('');
+                    setItems(response.data.cards);
+                };
+            });
+        }catch(Exception){
+            console.log("fail")
+        }
+        
     }, []);
 
     return {

@@ -8,7 +8,8 @@ function getUserInventoryByFilter(filter) {
             if (error) return reject(error);
 
             const user = await client.db().collection("cards")
-                .findOne(filter);
+            //.find({}).toArray();
+            .find(filter).toArray();
 
             client.close();
             return resolve(user);
@@ -22,10 +23,8 @@ async function getUserCards(req, res) {
     const { id } = req.params;
 
     try {
-        const user = await getUserInventoryByFilter({ user_id: new ObjectId(id) })
-        if (user == null) return response(res, 404, false, 'No existe un usuario con id ' + id);
-        delete user.password;
-        return response(res, 200, true, 'Usuario con id: ' + id, { user });
+        const cards = await getUserInventoryByFilter({ user_id: id })
+        return response(res, 200, true, 'Cards del usuario con id con id: ' + id, { cards });
     } catch (error) {
         return response(res, 501, false, 'Ha ocurrido un error en el servidor', { error });
     }

@@ -7,8 +7,9 @@ export interface UserCard {
     card_id: string,
     date: Date,
     card_name: string,
-    card_img: string,
-    card_price?: number
+    card_image: string,
+    card_price?: number,
+    card_value?: number
 }
 
 export default function UserInventory(){    
@@ -35,10 +36,9 @@ export function Item({card}: {card:UserCard}){
 
     return (
         <div className="card w-100">
-            <img className="card-img-top h-50" src={card.card_img} style={{minHeight:350, maxHeight:350}}/>
+            <img className="card-img-top h-50" src={card.card_image} style={{minHeight:350, maxHeight:350}}/>
             <div className="card-body">
-                <h5 className="card-title text-center">{card.card_name} ${price}</h5>
-                <p className="text-center">Precio: ${card.card_price}</p>
+                <h5 className="card-title text-center">{card.card_name} ${card.card_value}</h5>
                 <div className="row justify-content-center">
                     <div className="col-8">
                         <button className="btn btn-success btn-block">
