@@ -1,5 +1,5 @@
 import React from 'react'
-import {useInventoryState, useCardState} from './userInventoryState'
+import {useInventoryState} from './userInventoryState'
 
 export interface UserCard {
     _id: string,
@@ -16,7 +16,8 @@ export default function UserInventory(){
     const {items} = useInventoryState();
     return(
         <>
-        <div className='row'>
+        <div className='inner-containter'>
+            <div className='row'>
             {items.val.map((item, index) => {
                 return (
                     <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex align-items-center justify-content-center mt-5">
@@ -24,6 +25,7 @@ export default function UserInventory(){
                     </div>
                 )
             })}
+            </div>
         </div>
         </>
     );
@@ -31,8 +33,8 @@ export default function UserInventory(){
 }
 
 export function Item({card}: {card:UserCard}){
-    const state = useCardState();
-    const price:number = card.card_price || 0;
+    //const state = useCardState();
+    //const price:number = card.card_price || 0;
 
     return (
         <div className="card w-100">

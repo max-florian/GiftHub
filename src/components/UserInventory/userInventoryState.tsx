@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react"
 import {UserCard} from "."
 import utils from  '../../utils/callApi'
-import { getToken } from "../../utils/storage";
+//import { getToken } from "../../utils/storage";
 
 export function useCardState(){
     const [amount, setAmount] = useState<number>(0);
