@@ -11,7 +11,7 @@ export function getToken() {
 }
 
 export function removeToken() {
-    return localStorage.removeItem(keys.token);
+    localStorage.removeItem(keys.token);
 }
 
 export function saveUserId(id: string) {
@@ -20,4 +20,8 @@ export function saveUserId(id: string) {
 
 export function getUserId() {
     return localStorage.getItem(keys.userId);
+}
+
+export function removeUserId() {
+    localStorage.removeItem(keys.userId);
 }
