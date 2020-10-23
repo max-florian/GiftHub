@@ -1,4 +1,5 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import api from "../../utils/callApi";
 
 /**
 ● Username
@@ -10,6 +11,7 @@ import { ChangeEvent, useState } from "react";
 ● Edad
 */
 interface User {
+    _id?: string;
     username?: string;
     email?: string;
     password?: string;
@@ -21,6 +23,7 @@ interface User {
 
 export default function useProfileState() {
     const [user, setUser] = useState<User>({
+        _id: '',
         age: 0,
         dpi: 0,
         email: '',
@@ -29,6 +32,13 @@ export default function useProfileState() {
         password: '',
         username: ''
     });
+
+    useEffect(() => {
+        api.callApi({ uri: '/users/5f8687c57ae02f2fe580161a' })
+            .then(response => {
+                changeUser(response.data.user as User)
+            }).catch(console.log)
+    }, [])
 
     const changeUser = (newInfo: User) => {
         setUser((user) => ({ ...user, ...newInfo }));

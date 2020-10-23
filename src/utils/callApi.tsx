@@ -1,9 +1,14 @@
+import { getToken } from "./storage";
+
 const apiUrl = 'http://localhost:4000/api';
 
 async function callApi({ uri, method = 'GET', body = {} }: Props) {
     const httpResponse = await fetch(apiUrl + uri, {
-        method, body: JSON.stringify(body), headers: {
-            "Content-Type": 'application/json'
+        method,
+        body: method === 'GET' ? null : JSON.stringify(body),
+        headers: {
+            "Content-Type": 'application/json',
+            "Authorization": 'Bearer ' + getToken()
         }
     })
 
@@ -19,7 +24,7 @@ async function callApi({ uri, method = 'GET', body = {} }: Props) {
 
 type Props = {
     uri: string,
-    method: 'POST' | 'GET' | 'PUT' | 'DELETE',
+    method?: 'POST' | 'GET' | 'PUT' | 'DELETE',
     body?: object
 }
 
