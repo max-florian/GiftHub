@@ -6,6 +6,7 @@ export default function Profile() {
 
     return (
         <form>
+            <h1 style={{ fontSize: 40, margin: 20 }}>Mi perfil</h1>
             <div className="form-row">
                 <div className="form-group col-md-6">
                     <label htmlFor="username">Username</label>
