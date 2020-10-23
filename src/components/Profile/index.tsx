@@ -2,43 +2,64 @@ import React from "react";
 import useProfileState from "./state";
 
 export default function Profile() {
-    const { user } = useProfileState();
+    const { user, handles } = useProfileState();
 
     return (
         <form>
             <div className="form-row">
                 <div className="form-group col-md-6">
-                    <label htmlFor="inputEmail4">Username</label>
-                    <input type="text" className="form-control" id="inputEmail4" />
+                    <label htmlFor="username">Username</label>
+                    <input type="text" className="form-control" id="username"
+                        placeholder="Nombre de usuario"
+                        value={user.username}
+                        onChange={handles.setUsername} />
                 </div>
                 <div className="form-group col-md-6">
-                    <label htmlFor="inputPassword4">Email</label>
-                    <input type="email" className="form-control" id="inputPassword4" />
+                    <label htmlFor="email">Email</label>
+                    <input type="email" className="form-control" id="email"
+                        placeholder="Correo electrónico"
+                        value={user.email}
+                        onChange={handles.setEmail} />
                 </div>
             </div>
             <div className="form-row">
                 <div className="form-group col-md-6">
-                    <label htmlFor="inputEmail4">Name</label>
-                    <input type="text" className="form-control" id="inputEmail4" />
+                    <label htmlFor="name">Name</label>
+                    <input type="text" className="form-control" id="name"
+                        placeholder="Nombres"
+                        value={user.name}
+                        onChange={handles.setName} />
                 </div>
                 <div className="form-group col-md-6">
-                    <label htmlFor="inputPassword4">Lastname</label>
-                    <input type="text" className="form-control" id="inputPassword4" />
+                    <label htmlFor="lastname">Lastname</label>
+                    <input type="text" className="form-control" id="lastname"
+                        placeholder="Apellidos"
+                        value={user.lastname}
+                        onChange={handles.setLastname} />
                 </div>
             </div>
             <div className="form-row">
                 <div className="form-group col-md-3">
-                    <label htmlFor="inputZip">Age</label>
-                    <input type="number" className="form-control" id="inputZip" />
+                    <label htmlFor="age">Age</label>
+                    <input type="number" className="form-control" id="age"
+                        placeholder="Edad"
+                        value={user.age}
+                        onChange={handles.setAge} />
                 </div>
                 <div className="form-group col-md-9">
-                    <label htmlFor="inputCity">DPI</label>
-                    <input type="number" className="form-control" id="inputCity" />
+                    <label htmlFor="dpi">DPI</label>
+                    <input type="number" className="form-control" id="dpi"
+                        placeholder="Documento de identificación"
+                        value={user.dpi}
+                        onChange={handles.setDpi} />
                 </div>
             </div>
             <div className="form-group">
-                <label htmlFor="inputAddress">New Password</label>
-                <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" />
+                <label htmlFor="newpassword">New Password</label>
+                <input type="password" className="form-control" id="newpassword"
+                    placeholder="Nueva contraseña"
+                    value={user.password}
+                    onChange={handles.setPassword} />
             </div>
             <button type="submit" className="btn btn-primary">Save changes</button>
         </form>
