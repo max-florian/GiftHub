@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import api from "../../utils/callApi";
+import { getUserId } from "../../utils/storage";
 
 /**
 ● Username
@@ -34,7 +35,10 @@ export default function useProfileState() {
     });
 
     useEffect(() => {
-        api.callApi({ uri: '/users/5f8687c57ae02f2fe580161a' })
+        const userId = getUserId();
+        if (!userId) return; // TODO: No está logueado, redirigir al login
+
+        api.callApi({ uri: `/users/${userId}` })
             .then(response => {
                 changeUser(response.data.user as User)
             }).catch(console.log)
