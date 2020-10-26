@@ -17,6 +17,11 @@ export default function UserInventory(){
     return(
         <>
         <div className='inner-containter'>
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb">
+                    <li className="breadcrumb-item active" aria-current="page">Inventario</li>
+                </ol>
+            </nav>
             <div className='row'>
             {items.val.map((item, index) => {
                 return (

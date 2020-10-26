@@ -34,7 +34,8 @@ export function useInventoryState(){
                 };
             });
         }catch(Exception){
-            console.log("fail")
+            console.log("fail");
+            setErrorMessage('Hubo un problema al cargar las tarjetas')
         }
         
     }, []);

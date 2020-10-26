@@ -1,12 +1,10 @@
 const response = require("./response");
 const mongo = require('../db');
-const ObjectId = require('mongodb').ObjectId;
 
 function getUserInventoryByFilter(filter) {
     return new Promise((resolve, reject) => {
         mongo().connect(async (error, client) => {
             if (error) return reject(error);
-
             const user = await client.db().collection("cards")
             //.find({}).toArray();
             .find(filter).toArray();
@@ -14,7 +12,6 @@ function getUserInventoryByFilter(filter) {
             client.close();
             return resolve(user);
         });
-
     })
 }
 
