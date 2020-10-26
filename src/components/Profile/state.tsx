@@ -1,4 +1,5 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, MouseEvent as EventMouse, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import api from "../../utils/callApi";
 import { getUserId } from "../../utils/storage";
 
@@ -33,6 +34,7 @@ export default function useProfileState() {
         password: '',
         username: ''
     });
+    const history = useHistory();
 
     useEffect(() => {
         const userId = getUserId();
@@ -42,7 +44,22 @@ export default function useProfileState() {
             .then(response => {
                 changeUser(response.data.user as User)
             }).catch(console.log)
-    }, [])
+    }, []);
+
+    const updateProfile = (event: EventMouse<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
+        const userId = getUserId();
+        if (!userId) return; // TODO: No está logueado, redirigir al login
+
+        api.callApi({ uri: `/users/${userId}`, method: 'PUT', body: { user } })
+            .then(response => {
+                console.log(response)
+            }).catch(console.log)
+    }
+
+    const goBack = () => {
+        history.goBack();
+    }
 
     const changeUser = (newInfo: User) => {
         setUser((user) => ({ ...user, ...newInfo }));
@@ -86,6 +103,10 @@ export default function useProfileState() {
             setEmail,
             setDpi,
             setAge
+        },
+        actions: {
+            updateProfile,
+            goBack
         }
     }
 }

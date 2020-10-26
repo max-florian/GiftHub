@@ -2,7 +2,7 @@ import React from "react";
 import useProfileState from "./state";
 
 export default function Profile() {
-    const { user, handles } = useProfileState();
+    const { user, handles, actions } = useProfileState();
 
     return (
         <form>
@@ -62,7 +62,14 @@ export default function Profile() {
                     value={user.password}
                     onChange={handles.setPassword} />
             </div>
-            <button type="submit" className="btn btn-primary">Save changes</button>
+            <div className="row">
+                <div className="col">
+                    <button type="submit" className="btn btn-secondary" onClick={actions.goBack}>Back</button>
+                </div>
+                <div className="col">
+                    <button type="submit" className="btn btn-primary" onClick={actions.updateProfile}>Save changes</button>
+                </div>
+            </div>
         </form>
     )
 }
