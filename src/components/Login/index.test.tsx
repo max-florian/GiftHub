@@ -6,6 +6,16 @@ import Login from '.';
 import useLoginState from "./state";
 import utils from "../../utils/callApi";
 
+jest.mock('react-router-dom', () => {
+    return {
+        useHistory: jest.fn().mockImplementation(() => {
+            return {
+                replace: jest.fn()
+            }
+        })
+    }
+})
+
 describe('Pantalla de Login', () => {
     test('Debe renderizar Correctamente', () => {
         const { getByText } = render(<Login />);
@@ -20,27 +30,27 @@ describe('Pantalla de Login', () => {
         expect(result.current.password.value).toBe('');
     })
 
-    test('Debe cambiar el email o username', () => {
+    test('Debe cambiar el email o username', async () => {
         const { result } = renderHook(() => useLoginState());
 
         const email = 'dalexis.da@gmail.com';
 
         //@ts-ignore
-        act(() => result.current.emailOrUsername.onChange({ target: { value: email } }));
+        await act(async () => result.current.emailOrUsername.onChange({ target: { value: email } }));
         expect(result.current.emailOrUsername.value).toBe(email);
     })
 
-    test('Debe cambiar el password', () => {
+    test('Debe cambiar el password', async () => {
         const { result } = renderHook(() => useLoginState());
 
         const password = 'password';
 
         //@ts-ignore
-        act(() => result.current.password.onChange({ target: { value: password } }));
+        await act(async () => result.current.password.onChange({ target: { value: password } }));
         expect(result.current.password.value).toBe(password);
     })
 
-    test('Debe iniciar sesion', () => {
+    test('Debe iniciar sesion', async () => {
         const { result, waitFor } = renderHook(() => useLoginState());
 
         const email = 'dalexis.da@gmail.com';
@@ -56,18 +66,18 @@ describe('Pantalla de Login', () => {
         jest.spyOn(utils, 'callApi').mockImplementation(() => Promise.resolve(resolve));
 
         //@ts-ignore
-        act(() => result.current.emailOrUsername.onChange({ target: { value: email } }));
+        await act(async() => result.current.emailOrUsername.onChange({ target: { value: email } }));
         //@ts-ignore
-        act(() => result.current.password.onChange({ target: { value: password } }));
+        await act(async() => result.current.password.onChange({ target: { value: password } }));
         //@ts-ignore
-        act(() => result.current.login.onClick({ preventDefault: () => { } }));
+        await act(async() => result.current.login.onClick({ preventDefault: () => { } }));
 
         waitFor(() => expect(result.current.password.value).toBe(''));
         waitFor(() => expect(result.current.emailOrUsername.value).toBe(''));
         expect(result.current.error.message).toBe('');
     })
 
-    test('Debe mostrar error', () => {
+    test('Debe mostrar error', async () => {
         const { result, waitFor } = renderHook(() => useLoginState());
 
         const email = 'dalexis.da@gmail.com';
@@ -77,17 +87,17 @@ describe('Pantalla de Login', () => {
             ok: false,
             statuscode: 400,
             message: 'No se pudo iniciar sesion',
-            data: { },
+            data: {},
         }
 
         jest.spyOn(utils, 'callApi').mockImplementation(() => Promise.resolve(resolve));
 
         //@ts-ignore
-        act(() => result.current.emailOrUsername.onChange({ target: { value: email } }));
+        await act(async() => result.current.emailOrUsername.onChange({ target: { value: email } }));
         //@ts-ignore
-        act(() => result.current.password.onChange({ target: { value: password } }));
+        await act(async() => result.current.password.onChange({ target: { value: password } }));
         //@ts-ignore
-        act(() => result.current.login.onClick({ preventDefault: () => { } }));
+        await act(async() => result.current.login.onClick({ preventDefault: () => { } }));
 
         waitFor(() => expect(result.current.password.value).toBe(email));
         waitFor(() => expect(result.current.emailOrUsername.value).toBe(password));
