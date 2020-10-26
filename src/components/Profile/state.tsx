@@ -24,6 +24,8 @@ interface User {
 }
 
 export default function useProfileState() {
+    const [loading, setLoading] = useState(true);
+    const [updating, setUpdating] = useState(false);
     const [user, setUser] = useState<User>({
         _id: '',
         age: 0,
@@ -37,24 +39,34 @@ export default function useProfileState() {
     const history = useHistory();
 
     useEffect(() => {
+        setLoading(true);
         const userId = getUserId();
-        if (!userId) return; // TODO: No está logueado, redirigir al login
+        if (!userId) return history.replace('/');
 
         api.callApi({ uri: `/users/${userId}` })
             .then(response => {
                 changeUser(response.data.user as User)
-            }).catch(console.log)
-    }, []);
+                setLoading(false);
+            }).catch(error => {
+                console.log(error);
+                setLoading(false);
+            })
+    }, [history]);
 
     const updateProfile = (event: EventMouse<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         const userId = getUserId();
-        if (!userId) return; // TODO: No está logueado, redirigir al login
+        if (!userId) return history.replace('/');
 
+        setUpdating(true);
         api.callApi({ uri: `/users/${userId}`, method: 'PUT', body: { user } })
             .then(response => {
-                console.log(response)
-            }).catch(console.log)
+                changeUser(response.data)
+                setUpdating(false);
+            }).catch(error => {
+                console.error(error);
+                setUpdating(false);
+            })
     }
 
     const goBack = () => {
@@ -107,6 +119,8 @@ export default function useProfileState() {
         actions: {
             updateProfile,
             goBack
-        }
+        },
+        loading,
+        updating
     }
 }
