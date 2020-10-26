@@ -4,8 +4,9 @@ import '@testing-library/jest-dom/extend-expect';
 import PagoTarjeta from './';
 
 describe('<pagotarjeta />', () => {
+  const totalfake = 200
   test('it should mount', () => {
-    render(<PagoTarjeta />);
+    render(<PagoTarjeta total={totalfake}/>);
 
     const pagotarjeta = screen.getByTestId('pagotarjeta');
 
