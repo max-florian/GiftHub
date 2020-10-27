@@ -45,13 +45,14 @@ export default function useProfileState() {
 
         api.callApi({ uri: `/users/${userId}` })
             .then(response => {
+                if (response.statuscode == 401) return history.replace('/');
                 changeUser(response.data.user as User)
                 setLoading(false);
             }).catch(error => {
                 console.log(error);
                 setLoading(false);
             })
-    }, [history]);
+    }, []);
 
     const updateProfile = (event: EventMouse<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
