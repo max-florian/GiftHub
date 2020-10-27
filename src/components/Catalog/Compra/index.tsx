@@ -1,15 +1,7 @@
 import React from "react"
-import {useItemState, useInventoryState} from "./state"
-
-export interface Card {
-    id: string,
-    name: string,
-    image: string,
-    chargeRate: number,
-    active: boolean,
-    availability: Array<number>,
-    value?: number,
-}
+import {Card} from "../index"
+import {useInventoryState} from "../state"
+import {useItemState} from "./state"
 
 export const cart:Array<any> = [];
 export var total:number = 0;
