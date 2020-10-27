@@ -8,9 +8,9 @@ import { renderHook, act} from "@testing-library/react-hooks";
 import {PagoTarjeta} from './';
 import {DropDownCards} from './';
 import usePagoTarjeta from './state'
-// import { getUserId } from "../../utils/storage";
 
-import api from "../../utils/callApi";
+/*
+import api from "../../utils/callApi";*/
 
 describe('<pagotarjeta />', () => {
   const total = 27.5
@@ -28,5 +28,27 @@ describe('<pagotarjeta />', () => {
     const pagotarjeta = screen.getByTestId('pagotarjeta');
     expect(pagotarjeta).toBeInTheDocument();
   });
+
+  test('Dropdown list de tarjetas', () => {
+    const tarjeta = 'xxx-xxxx-xxxx-4656'
+    render(<DropDownCards tarjetas={[tarjeta]}/>);
+    const pagotarjeta = screen.getByText(tarjeta);
+    expect(pagotarjeta).toBeInTheDocument();
+  });
+
+  test('Probando hook', () => {
+    const { result } = renderHook(() => usePagoTarjeta({total,carrito}));
+    expect(result.current.objeto.datosFact.total).toBe(0)
+    expect(result.current.objeto.errors).toBe("")
+  })
+
+  test('Debe dar error si los campos de nueva tarjeta estan vacios, y se intenta pagar', async () => {
+    const {result} = renderHook(() => usePagoTarjeta({total,carrito}))
+    //@ts-ignore
+    await act(async () => result.current.handler.updateAddCart( { target: { checked: true}} ));
+    await act(async () => result.current.handler.pagar())
+    expect(result.current.objeto.errors).toBe('Los campos del form \"Tarjeta de credito o debito\" no deben estar vacios')
+    
+  })
 
 });

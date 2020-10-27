@@ -110,7 +110,10 @@ const usePagoTarjeta = ({total,carrito}:Init) => {
         return;
       }
     }
+    send_paymentRequest(isNewCard)
+  }
 
+  const send_paymentRequest = (isNewCard:boolean) => {
     const userId = getUserId();
     api.callApi({ uri: `/payment/${userId}`, method: 'POST',
       body: {
@@ -125,11 +128,11 @@ const usePagoTarjeta = ({total,carrito}:Init) => {
         // Notificacion de pago exitoso etc
         console.log(response)
       }).catch(error => {
-        console.error(error);
+      console.error(error);
     })
   }
 
-  function validateNewCard(){
+  const validateNewCard = () => {
     if(tarjeta.notarjeta !== "" && tarjeta.aniovenc !== "Año"
       && tarjeta.mesvenc !== "Mes" && tarjeta.cvv !== ""){
       if(regex.test(tarjeta.notarjeta) && tarjeta.notarjeta.length === 16
