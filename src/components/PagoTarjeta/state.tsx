@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getUserId } from "../../utils/storage";
 import api from "../../utils/callApi";
+import { ChangeEvent } from "react";
 
 interface tarjeta {
   notarjeta:any,
@@ -15,12 +16,12 @@ interface datosDeFact{
   total:any
 }
 
-interface init{
+interface Init{
   total:number,
   carrito: any[]
 }
 
-const usePagoTarjeta = ({total,carrito}:init) => {
+const usePagoTarjeta = ({total,carrito}:Init) => {
   const [tarjeta, setTarjeta] = useState<tarjeta>({
     notarjeta: "",
     mesvenc: "",
@@ -37,6 +38,7 @@ const usePagoTarjeta = ({total,carrito}:init) => {
   const [tarjetaReg,setTarjetaReg] = useState("Select");
   const [addCard,setAddCard] = useState(true)
   const [errors,setErrors] =  useState("")
+  const [totalEnQ,setTotalEnQ] = useState(total)
 
   const regex = new RegExp("^[0-9]+")
 
@@ -49,38 +51,48 @@ const usePagoTarjeta = ({total,carrito}:init) => {
     api.callApi({ uri: `/users/${userId}` })
       .then(response => {
         // Asigna el nombre y apellido para los datos de facturacion
-        setDatosFact({...datosFact,nombre: response.data.user.name, apellido: response.data.user.lastname, total:total})
+        setDatosFact({...datosFact,nombre: response.data.user?.name, apellido: response.data.user?.lastname, total:total})
       }).catch(console.log)
 
     api.callApi({ uri: `/payment/${userId}` })
       .then(response => {
-        // Anade las tarjetas que ya tenga guardadas el usuario
-        const aux = []
-        for(let i = 0; i < response.data.length; i++){
-          aux.push(response.data[i].notarjeta)
-        }
-        setTarjetaRegis([...tarjetasRegis,...aux])
-        if(response.data.length > 0) { setAddCard(false) }
+        update_tarjetas_regis(response.data)
       }).catch(console.log)
+
+    fetch("https://my-json-server.typicode.com/Coffeepaw/AyD1API/TasaCambio")
+      .then(res => res.json())
+      .then((json)=>{
+        setTotalEnQ(total*json[0].total)
+      })
   }
 
-  const updateTarjetaReg = (value:string) => {
-    setTarjetaReg(value)
+  const update_tarjetas_regis = (data:any) => {
+    // Anade las tarjetas que ya tenga guardadas el usuario
+    const aux = []
+    for(let i = 0; i < data.length; i++){
+      aux.push(data[i].notarjeta)
+    }
+    setTarjetaRegis([...tarjetasRegis,...aux])
+    if(data.length > 0) { setAddCard(false) }
   }
-  const updateNoTarjeta = (value:string) => {
-    setTarjeta({...tarjeta,notarjeta:value})
+
+  const updateTarjetaReg = (e: ChangeEvent<HTMLSelectElement>) => {
+    setTarjetaReg(e.target.value)
   }
-  const updateMes = (value:string) => {
-    setTarjeta({...tarjeta,mesvenc:value})
+  const updateNoTarjeta = (e:ChangeEvent<HTMLInputElement>) => {
+    setTarjeta({...tarjeta,notarjeta:e.target.value})
   }
-  const updateAnio = (value:string) => {
-    setTarjeta({...tarjeta,aniovenc:value})
+  const updateMes = (e: ChangeEvent<HTMLSelectElement>) => {
+    setTarjeta({...tarjeta,mesvenc:e.target.value})
   }
-  const updateCVV = (value:string) => {
-    setTarjeta({...tarjeta,cvv:value})
+  const updateAnio = (e:ChangeEvent<HTMLSelectElement>) => {
+    setTarjeta({...tarjeta,aniovenc:e.target.value})
   }
-  const updateAddCart = (value:boolean) => {
-    setAddCard(value)
+  const updateCVV = (e:ChangeEvent<HTMLInputElement>) => {
+    setTarjeta({...tarjeta,cvv:e.target.value})
+  }
+  const updateAddCart = (e:ChangeEvent<HTMLInputElement>) => {
+    setAddCard(e.target.checked)
   }
 
   function pagar(){
@@ -104,7 +116,7 @@ const usePagoTarjeta = ({total,carrito}:init) => {
       body: {
         user_id: userId,
         carrito: carrito,
-        total: total,
+        total: totalEnQ,
         isNewCard: isNewCard,
         tarjetaRegistrada: tarjetaReg,
         tarjetaNueva: tarjeta
@@ -139,7 +151,8 @@ const usePagoTarjeta = ({total,carrito}:init) => {
       tarjetasRegis,
       tarjetaReg,
       datosFact,
-      errors
+      errors,
+      totalEnQ
     },
     handler: {
       setTarjeta,
@@ -151,7 +164,8 @@ const usePagoTarjeta = ({total,carrito}:init) => {
       pagar,
       addCard,
       updateAddCart,
-      setDatosFact
+      setDatosFact,
+      update_tarjetas_regis
     }
   }
 }

@@ -27,6 +27,7 @@ function payment(req, res) {
     })
   } else {
     encpritNotarjeta = req.body.tarjetaRegistrada
+    console.log(encpritNotarjeta)
   }
 
   /** Se valida el pago con el banco**/
@@ -72,8 +73,6 @@ function payment(req, res) {
     client.close();
     response(res, 200, true, 'Se ha realizado la compra exitosamente!', { });
   });
-
-  response(res, 200, true, 'Se ha realizado la compra exitosamente!', { });
 }
 
 function getPaymentMethods(req, res) {

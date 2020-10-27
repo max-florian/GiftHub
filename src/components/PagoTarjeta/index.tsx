@@ -24,6 +24,7 @@ const PagoTarjeta = ({total, carrito}:init) => {
       <h3>Resumen de compra</h3>
       <hr/>
       <p>Total a cancelar: <strong>${objeto.datosFact.total}</strong></p>
+      <p>Total a en moneda local: <strong>Q{objeto.totalEnQ}</strong></p>
     </div>
     <div>
       <h3>Continuar con el pago</h3>
@@ -39,10 +40,8 @@ const PagoTarjeta = ({total, carrito}:init) => {
             <label>Select a card:</label>
             <select className="form-control" id="tarjetasRegis"
                     value={objeto.tarjetaReg}
-                    onChange={(e) => handler.updateTarjetaReg(e.target.value)}>
-              {objeto.tarjetasRegis.map((card)=>{
-                return <option value={card} key={card}>{card}</option>
-              })}
+                    onChange={handler.updateTarjetaReg}>
+              <DropDownCards tarjetas={objeto.tarjetasRegis} />
             </select>
           </div>
         </div>
@@ -53,7 +52,7 @@ const PagoTarjeta = ({total, carrito}:init) => {
             name="isGoing"
             type="checkbox"
             checked={handler.addCard}
-            onChange={(e) => handler.updateAddCart(e.target.checked)}/>
+            onChange={handler.updateAddCart}/>
           &nbsp; Tarjeta de credito o debito
         </div>
         <div className="card-body">
@@ -63,7 +62,7 @@ const PagoTarjeta = ({total, carrito}:init) => {
                 <label >Numero de tarjeta</label>
                 <input type="text" className="form-control" id="notarjeta"
                        placeholder="xxxx-xxxx-xxxx-xxxx" value={objeto.tarjeta.notarjeta}
-                       onChange={(e) => handler.updateNoTarjeta(e.target.value)}/>
+                       onChange={handler.updateNoTarjeta}/>
               </div>
               <div className="form-group col-md-3">
                 <div className="row">
@@ -74,7 +73,7 @@ const PagoTarjeta = ({total, carrito}:init) => {
                     <div className="form-group">
                       <select className="form-control" id="mesvenc"
                               value={objeto.tarjeta.mesvenc}
-                              onChange={(e) => handler.updateMes(e.target.value)}>
+                              onChange={handler.updateMes}>
                         {meses.map((month)=>{
                           return <option value={month} key={month}>{month}</option>
                         })}
@@ -88,7 +87,7 @@ const PagoTarjeta = ({total, carrito}:init) => {
                     <div className="form-group">
                       <select className="form-control" id="aniovenc"
                               value={objeto.tarjeta.aniovenc}
-                              onChange={(e) => handler.updateAnio(e.target.value)}>
+                              onChange={handler.updateAnio}>
                         {anios.map((year)=>{
                           return <option value={year} key={year}>{year}</option>
                         })}
@@ -101,7 +100,7 @@ const PagoTarjeta = ({total, carrito}:init) => {
                 <label >CVV</label>
                 <input type="text" className="form-control" id="cvv"
                        value={objeto.tarjeta.cvv}
-                       onChange={(e)=> handler.updateCVV(e.target.value)}/>
+                       onChange={handler.updateCVV}/>
               </div>
             </div>
           </form>
@@ -134,4 +133,11 @@ const PagoTarjeta = ({total, carrito}:init) => {
   </div>);
 }
 
-export default PagoTarjeta;
+const DropDownCards = ({tarjetas}:any) => {
+  return ( tarjetas.map((card:any)=> <option value={card} key={card}>{card}</option>) )
+}
+
+export {
+  PagoTarjeta,
+  DropDownCards
+};
