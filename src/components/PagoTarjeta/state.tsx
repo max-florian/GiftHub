@@ -128,7 +128,8 @@ const usePagoTarjeta = ({total,carrito}:Init) => {
         // Notificacion de pago exitoso etc
         console.log(response)
       }).catch(error => {
-      console.error(error);
+        console.error(error);
+        setErrors(error)
     })
   }
 
@@ -168,7 +169,8 @@ const usePagoTarjeta = ({total,carrito}:Init) => {
       addCard,
       updateAddCart,
       setDatosFact,
-      update_tarjetas_regis
+      update_tarjetas_regis,
+      send_paymentRequest
     }
   }
 }

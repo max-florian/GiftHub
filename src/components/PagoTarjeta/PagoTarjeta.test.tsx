@@ -9,10 +9,11 @@ import {PagoTarjeta} from './';
 import {DropDownCards} from './';
 import usePagoTarjeta from './state'
 
-/*
-import api from "../../utils/callApi";*/
+import api from "../../utils/callApi";
 
 describe('<pagotarjeta />', () => {
+  const tarjeta = 'xxx-xxxx-xxxx-4656'
+  const newTarjeta = '1234132412341234'
   const total = 27.5
   const carrito = [
     {
@@ -30,7 +31,6 @@ describe('<pagotarjeta />', () => {
   });
 
   test('Dropdown list de tarjetas', () => {
-    const tarjeta = 'xxx-xxxx-xxxx-4656'
     render(<DropDownCards tarjetas={[tarjeta]}/>);
     const pagotarjeta = screen.getByText(tarjeta);
     expect(pagotarjeta).toBeInTheDocument();
@@ -48,7 +48,47 @@ describe('<pagotarjeta />', () => {
     await act(async () => result.current.handler.updateAddCart( { target: { checked: true}} ));
     await act(async () => result.current.handler.pagar())
     expect(result.current.objeto.errors).toBe('Los campos del form \"Tarjeta de credito o debito\" no deben estar vacios')
-    
+  })
+
+  test('Debe dar error si la tarjeta o cvv no tienen el tamano adecuado', async () => {
+    const {result} = renderHook(() => usePagoTarjeta({total,carrito}))
+    //@ts-ignore
+    await act(async () => result.current.handler.updateAddCart( { target: { checked: true}} ));
+    //@ts-ignore
+    await act(async () => result.current.handler.updateNoTarjeta( { target: { value: newTarjeta + 1 }} )); // Un caracter mas para que falle
+    //@ts-ignore
+    await act(async () => result.current.handler.updateMes( { target: { value: '01'}} ));
+    //@ts-ignore
+    await act(async () => result.current.handler.updateCVV( { target: { value: '242'}} ));
+    //@ts-ignore
+    await act(async () => result.current.handler.pagar())
+    expect(result.current.objeto.errors).toBe('El tamano de la tarjeta(16) o de cvv(3) no es correcto')
+  })
+
+  test('Debe se debe llamar al metodo send_payment si los datos de la nueva tarjeta son correctos', async () => {
+    const {result} = renderHook(() => usePagoTarjeta({total,carrito}))
+    //@ts-ignore
+    await act(async () => result.current.handler.updateAddCart( { target: { checked: true}} ));
+    //@ts-ignore
+    await act(async () => result.current.handler.updateNoTarjeta( { target: { value: newTarjeta }} ));
+    //@ts-ignore
+    await act(async () => result.current.handler.updateMes( { target: { value: '01'}} ));
+    //@ts-ignore
+    await act(async () => result.current.handler.updateCVV( { target: { value: '242'}} ));
+    //@ts-ignore
+    await act(async () => result.current.handler.pagar())
+
+    const resolve = {
+      ok: true,
+      statuscode: 200,
+      message: 'Sesion iniciada',
+      data: { token: 'Hola' },
+    }
+
+    jest.spyOn(api, 'callApi').mockImplementation(() => Promise.resolve(resolve));
+
+    // expect here, it expect it just a test example
+    expect(result.current.objeto.errors).toBe("")
   })
 
 });
