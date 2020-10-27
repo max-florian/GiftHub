@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from "react"
-import {useInventoryState, useItemState} from "./state"
+import React from "react"
+import {useItemState, useInventoryState} from "./state"
 
 export interface Card {
     id: string,
@@ -8,35 +8,41 @@ export interface Card {
     chargeRate: number,
     active: boolean,
     availability: Array<number>,
-    price?: number
+    value?: number,
 }
 
-export function Counter({amount, setAmount}: {amount:any, setAmount:any}){
+const cart:Array<any> = [];
+var total:number = 0;
 
-    function increaseAmount(){
-        setAmount(amount + 1);
-    }
+function addToCart(card: Card, quantity: number){
 
-    function decreaseAmount(){
-        setAmount(amount - 1);
-    }
+    for(var i = 0; i < quantity; i++){
+        cart.push({
+            card_id: card.id,
+            card_name: card.name,
+            card_image: card.image,
+            card_value: card.value + "",
+            card_price: (card.value || 0) + ((card.value || 0) * card.chargeRate)
+        });
 
-    function changeAmount(event: ChangeEvent<HTMLInputElement>){
-        setAmount(event.target.value)
+        total += (card.value || 0) + ((card.value || 0) * card.chargeRate);
     }
+}
+
+export function Counter({amount}: {amount:any}){
 
     return (
         <div className="input-group mb-3">
             <div className="input-group-prepend">
-                <button disabled={amount == 0} className="btn btn-primary" type="button" onClick={decreaseAmount}>-</button>
+                <button disabled={amount.val === 1} className="btn btn-primary" type="button" onClick={amount.decrease}>-</button>
             </div>
             <input 
                 type="number"
                 className="form-control text-center" 
-                value={amount}
-                onChange={changeAmount}/>
+                value={amount.val}
+                onChange={amount.change}/>
             <div className="input-group-append">
-                <button className="btn btn-primary" type="button" onClick={increaseAmount}>+</button>
+                <button className="btn btn-primary" type="button" onClick={amount.increase}>+</button>
             </div>
         </div>
     )
@@ -46,22 +52,28 @@ export function Item({card}: {card:Card}){
     const state = useItemState();
     const amount = state.amount;
 
-    const price:number = card.price || 0;
-    const retailPrice:number = price + (price * card.chargeRate);
+    const value:number = card.value || 0;
+    const retailPrice:number = value + (value * card.chargeRate);
+
+    function addToCartHandler(){
+        addToCart(card, amount.val);
+    }
 
     return (
         <div className="card w-100">
-            <img className="card-img-top h-50" src={card.image} style={{minHeight:350, maxHeight:350}}/>
+            <img className="card-img-top h-50" src={card.image} style={{minHeight:350, maxHeight:350}} alt=""/>
             <div className="card-body">
-                <h5 className="card-title text-center">{card.name} ${price}</h5>
+                <h5 className="card-title text-center">{card.name} ${value}</h5>
                 <p className="text-center">Precio: ${(Math.round(retailPrice * 100) / 100).toFixed(2)}</p>
                 <div className="row justify-content-center">
                     <div className="col-8">
-                        <Counter amount={amount.val} setAmount={amount.set}/>
+                        <Counter amount={amount}/>
                     </div>
                 </div>
                 <div className="row">
-                    <button disabled={!card.active} className="btn btn-block btn-primary">Agregar al Carrito</button>
+                    <button disabled={!card.active} className="btn btn-block btn-primary" onClick={addToCartHandler}>
+                        Agregar al Carrito
+                    </button>
                 </div>
             </div>
         </div>
@@ -72,15 +84,34 @@ export default function Inventory(){
     const state = useInventoryState();
     const items = state.items;
 
+    function proceedToPaymentClickHandler(){
+        proceedToPayment(items.val);
+    }
+
     return (
-        <div className="row">
-            {items.val.map((item, index) => {
-                return (
-                    <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex align-items-center justify-content-center mt-5">
-                        <Item card={item}/>
-                    </div>
-                )
-            })}
+        <div className="mt-4 mx-4">
+            <div className="row">
+                <button className="btn btn-block btn-primary" onClick={proceedToPaymentClickHandler}>
+                    Proceder a Pago
+                </button>
+            </div>
+            <div className="row">
+                {items.val.map((item, index) => {
+                    return (
+                        <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex align-items-center justify-content-center mt-5">
+                            <Item card={item}/>
+                        </div>
+                    )
+                })}
+            </div>
         </div>
     )
+}
+
+export function proceedToPayment(items: Array<Card>){
+    var props = {
+        total: total,
+        carrito: cart
+    }
+    console.log(props);
 }
