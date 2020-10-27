@@ -149,8 +149,10 @@ describe("Catalogo de giftcards", () => {
             fetchMock.mockImplementationOnce(() => Promise.reject("API is down"));
 
             function setCatalogo(newCatalogo:Array<Card>){
-                expect(newCatalogo.length).toBe(0);
-                done();
+                try{
+                    expect(newCatalogo.length).toBe(0);
+                    done();
+                }catch(err){done(err)}
             }
 
             fetchFromAPI(setCatalogo);
@@ -162,22 +164,52 @@ describe("Catalogo de giftcards", () => {
                 .mockImplementationOnce(() => Promise.reject("API is down"));
 
             function setCatalogo(newCatalogo:Array<Card>){
-                expect(newCatalogo.length).toBe(0);
-                done();
+                try{
+                    expect(newCatalogo.length).toBe(0);
+                    done();
+                }catch(err){done(err)}
             }
 
             fetchFromAPI(setCatalogo);
         })
 
-        test('Resultado de ambos endpoints se combina correctamente', (done) => {
+        test('Catalogo retorna la cantidad correcta de items', (done) => {
 
             function setCatalogo(newCatalogo:Array<Card>){
-                const expectedLength = API_Card[0].availability.length + API_Card[1].availability.length;
-                expect(newCatalogo.length).toBe(expectedLength);
+                try{
+                    var expectedLength = 0;
+                    
+                    API_Card.forEach(card => {
+                        expectedLength += card.availability.length;
+                    });
+                    
+                    expect(newCatalogo.length).toBe(expectedLength);
+                    done();
+                }
+                catch(err){
+                    done(err);
+                }
+            }
 
-                const expectedValue = API_Value.find(x => Number(x.id) === API_Card[0].availability[0])?.total;
-                expect(newCatalogo[0].value).toBe(expectedValue)
-                done();
+            fetchFromAPI(setCatalogo);
+        })
+
+        test('Catalogo expone un item por cada valor de tarjeta', (done) => {
+
+            function setCatalogo(newCatalogo:Array<Card>){
+                try{
+                    const card = API_Card[0];
+                    card.availability.forEach(valueID => {
+                        const value = Number(API_Value.find(x => Number(x.id) === valueID)?.total);
+                        
+                        const catalogEntry = newCatalogo.find(item => item.value === value && item.id === card.id);
+                        expect(catalogEntry).not.toBeUndefined()
+                    })
+                    done();
+                }
+                catch(err){
+                    done(err);
+                }
             }
 
             fetchFromAPI(setCatalogo);
