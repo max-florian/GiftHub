@@ -3,14 +3,18 @@ import usePagoTarjeta from './state'
 
 interface init{
   total: number
+  carrito: card[]
 }
 
-const PagoTarjeta = ({total}:init) => {
-  const { tarjeta, setTarjeta, tarjetaReg, updateTarjetaReg,
-    tarjetasRegis, updateNoTarjeta, updateMes,
-    updateAnio, updateCVV, pagar, addCard,updateAddCart,
-    errors,
-    datosFact, setDatosFact} = usePagoTarjeta({total})
+interface card {
+  card_id: any,
+  card_name: any,
+  card_image: any,
+  card_value: any,
+  card_price: number
+}
+const PagoTarjeta = ({total, carrito}:init) => {
+  const { objeto,  handler} = usePagoTarjeta({total, carrito})
 
   const meses = ["Mes","01","02","03","04","05","06","07","08","09","10","11","12"]
   const anios = ["Año","20","21","22","23","24","25","26","27","28","29"]
@@ -19,24 +23,24 @@ const PagoTarjeta = ({total}:init) => {
   <div style={{ }}>
       <h3>Resumen de compra</h3>
       <hr/>
-      <p>Total a cancelar: <strong>Q{datosFact.total}</strong></p>
+      <p>Total a cancelar: <strong>${objeto.datosFact.total}</strong></p>
     </div>
     <div>
       <h3>Continuar con el pago</h3>
       <hr/>
-      { errors !== "" &&
+      { objeto.errors !== "" &&
         <div className="alert alert-danger" role="alert">
-          {errors}
+          {objeto.errors}
         </div>
       }
-      {tarjetasRegis.length > 1 &&
+      {objeto.tarjetasRegis.length > 1 &&
         <div className="col-sm-12">
           <div className="form-group">
             <label>Select a card:</label>
             <select className="form-control" id="tarjetasRegis"
-                    value={tarjetaReg}
-                    onChange={(e) => updateTarjetaReg(e.target.value)}>
-              {tarjetasRegis.map((card)=>{
+                    value={objeto.tarjetaReg}
+                    onChange={(e) => handler.updateTarjetaReg(e.target.value)}>
+              {objeto.tarjetasRegis.map((card)=>{
                 return <option value={card} key={card}>{card}</option>
               })}
             </select>
@@ -48,8 +52,8 @@ const PagoTarjeta = ({total}:init) => {
           <input
             name="isGoing"
             type="checkbox"
-            checked={addCard}
-            onChange={(e) => updateAddCart(e.target.checked)}/>
+            checked={handler.addCard}
+            onChange={(e) => handler.updateAddCart(e.target.checked)}/>
           &nbsp; Tarjeta de credito o debito
         </div>
         <div className="card-body">
@@ -58,8 +62,8 @@ const PagoTarjeta = ({total}:init) => {
               <div className="form-group col-md-4">
                 <label >Numero de tarjeta</label>
                 <input type="text" className="form-control" id="notarjeta"
-                       placeholder="xxxx-xxxx-xxxx-xxxx" value={tarjeta.notarjeta}
-                       onChange={(e) => updateNoTarjeta(e.target.value)}/>
+                       placeholder="xxxx-xxxx-xxxx-xxxx" value={objeto.tarjeta.notarjeta}
+                       onChange={(e) => handler.updateNoTarjeta(e.target.value)}/>
               </div>
               <div className="form-group col-md-3">
                 <div className="row">
@@ -69,8 +73,8 @@ const PagoTarjeta = ({total}:init) => {
                   <div className="col-sm-5">
                     <div className="form-group">
                       <select className="form-control" id="mesvenc"
-                              value={tarjeta.mesvenc}
-                              onChange={(e) => updateMes(e.target.value)}>
+                              value={objeto.tarjeta.mesvenc}
+                              onChange={(e) => handler.updateMes(e.target.value)}>
                         {meses.map((month)=>{
                           return <option value={month} key={month}>{month}</option>
                         })}
@@ -83,8 +87,8 @@ const PagoTarjeta = ({total}:init) => {
                   <div className="col-sm-5">
                     <div className="form-group">
                       <select className="form-control" id="aniovenc"
-                              value={tarjeta.aniovenc}
-                              onChange={(e) => updateAnio(e.target.value)}>
+                              value={objeto.tarjeta.aniovenc}
+                              onChange={(e) => handler.updateAnio(e.target.value)}>
                         {anios.map((year)=>{
                           return <option value={year} key={year}>{year}</option>
                         })}
@@ -96,8 +100,8 @@ const PagoTarjeta = ({total}:init) => {
               <div className="form-group col-md-2">
                 <label >CVV</label>
                 <input type="text" className="form-control" id="cvv"
-                       value={tarjeta.cvv}
-                       onChange={(e)=> updateCVV(e.target.value)}/>
+                       value={objeto.tarjeta.cvv}
+                       onChange={(e)=> handler.updateCVV(e.target.value)}/>
               </div>
             </div>
           </form>
@@ -111,20 +115,20 @@ const PagoTarjeta = ({total}:init) => {
             <div className="form-group col-md-6">
               <label>Nombre</label>
               <input type="text" className="form-control" id="nombre" placeholder=""
-                     value={datosFact.nombre}
+                     value={objeto.datosFact.nombre}
                      readOnly={true}/>
             </div>
             <div className="form-group col-md-6">
               <label>Apellido</label>
               <input type="text" className="form-control" id="apellido" placeholder=""
-                     value={datosFact.apellido}
+                     value={objeto.datosFact.apellido}
                      readOnly={true}/>
             </div>
           </div>
         </form>
       </div>
       <div style={{textAlign:"center", marginTop: "30px"}}>
-        <button type="button" className="btn btn-primary" onClick={pagar}>Pagar</button>
+        <button type="button" className="btn btn-primary" onClick={handler.pagar}>Pagar</button>
       </div>
     </div>
   </div>);

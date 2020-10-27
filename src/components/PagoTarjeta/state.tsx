@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { getUserId } from "../../utils/storage";
+import api from "../../utils/callApi";
 
 interface tarjeta {
   notarjeta:any,
@@ -14,10 +16,11 @@ interface datosDeFact{
 }
 
 interface init{
-  total:number
+  total:number,
+  carrito: any[]
 }
 
-const usePagoTarjeta = ({total}:init) => {
+const usePagoTarjeta = ({total,carrito}:init) => {
   const [tarjeta, setTarjeta] = useState<tarjeta>({
     notarjeta: "",
     mesvenc: "",
@@ -30,7 +33,7 @@ const usePagoTarjeta = ({total}:init) => {
     total: 0,
   })
 
-  const [tarjetasRegis, setTarjetaRegis] = useState(["Select","12345646"])
+  const [tarjetasRegis, setTarjetaRegis] = useState(["Select"])
   const [tarjetaReg,setTarjetaReg] = useState("Select");
   const [addCard,setAddCard] = useState(true)
   const [errors,setErrors] =  useState("")
@@ -38,9 +41,28 @@ const usePagoTarjeta = ({total}:init) => {
   const regex = new RegExp("^[0-9]+")
 
   useEffect(()=>{
-    setDatosFact({...datosFact, total:total})
-    if(tarjetasRegis.length > 1){ setAddCard(false)}
+    load_first_data()
   },[])
+
+  function  load_first_data(){
+    const userId = getUserId();
+    api.callApi({ uri: `/users/${userId}` })
+      .then(response => {
+        // Asigna el nombre y apellido para los datos de facturacion
+        setDatosFact({...datosFact,nombre: response.data.user.name, apellido: response.data.user.lastname, total:total})
+      }).catch(console.log)
+
+    api.callApi({ uri: `/payment/${userId}` })
+      .then(response => {
+        // Anade las tarjetas que ya tenga guardadas el usuario
+        const aux = []
+        for(let i = 0; i < response.data.length; i++){
+          aux.push(response.data[i].notarjeta)
+        }
+        setTarjetaRegis([...tarjetasRegis,...aux])
+        if(response.data.length > 0) { setAddCard(false) }
+      }).catch(console.log)
+  }
 
   const updateTarjetaReg = (value:string) => {
     setTarjetaReg(value)
@@ -63,31 +85,48 @@ const usePagoTarjeta = ({total}:init) => {
 
   function pagar(){
     setErrors("")
+    let isNewCard:boolean = true
+
     if(addCard){
-      console.log("Se va agregar una nueva tarjeta")
-      if(validateNewCard()){
-        // Anadir la tarjeta y pagar
+      if(!validateNewCard()){
+        return
       }
     } else {
-      console.log("Usar una tarjeta selccionada")
-      if(tarjetaReg !== "Select"){
-        // Pagar con tarjeta registradaa
-      } else {
+      isNewCard = false
+      if(tarjetaReg === "Select"){
         setErrors("No ha seleccionado una tarjeta")
+        return;
       }
     }
+
+    const userId = getUserId();
+    api.callApi({ uri: `/payment/${userId}`, method: 'POST',
+      body: {
+        user_id: userId,
+        carrito: carrito,
+        total: total,
+        isNewCard: isNewCard,
+        tarjetaRegistrada: tarjetaReg,
+        tarjetaNueva: tarjeta
+      }})
+      .then(response => {
+        // Notificacion de pago exitoso etc
+        console.log(response)
+      }).catch(error => {
+        console.error(error);
+    })
   }
 
   function validateNewCard(){
     if(tarjeta.notarjeta !== "" && tarjeta.aniovenc !== "Año"
       && tarjeta.mesvenc !== "Mes" && tarjeta.cvv !== ""){
-      console.log(tarjeta.cvv.length )
-      if(regex.test(tarjeta.notarjeta) && tarjeta.notarjeta.length == 16
-        && regex.test(tarjeta.cvv) && tarjeta.cvv.length == 3){
+      if(regex.test(tarjeta.notarjeta) && tarjeta.notarjeta.length === 16
+        && regex.test(tarjeta.cvv) && tarjeta.cvv.length === 3){
         // Pasa todas las pruebas
         return true
       } else {
         setErrors("El tamano de la tarjeta(16) o de cvv(3) no es correcto")
+        return false
       }
     }
     setErrors("Los campos del form \"Tarjeta de credito o debito\" no deben estar vacios")
@@ -95,20 +134,25 @@ const usePagoTarjeta = ({total}:init) => {
   }
 
   return {
-    tarjeta,
-    setTarjeta,
-    tarjetasRegis,
-    tarjetaReg,updateTarjetaReg,
-    updateNoTarjeta,
-    updateMes,
-    updateAnio,
-    updateCVV,
-    pagar,
-    addCard,
-    updateAddCart,
-    datosFact,
-    setDatosFact,
-    errors
+    objeto: {
+      tarjeta,
+      tarjetasRegis,
+      tarjetaReg,
+      datosFact,
+      errors
+    },
+    handler: {
+      setTarjeta,
+      updateTarjetaReg,
+      updateNoTarjeta,
+      updateMes,
+      updateAnio,
+      updateCVV,
+      pagar,
+      addCard,
+      updateAddCart,
+      setDatosFact
+    }
   }
 }
 
