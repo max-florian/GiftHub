@@ -22,3 +22,5 @@ type Props = {
     method: 'POST' | 'GET' | 'PUT' | 'DELETE',
     body?: object
 }
+
+
