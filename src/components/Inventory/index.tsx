@@ -11,10 +11,10 @@ export interface Card {
     value?: number,
 }
 
-const cart:Array<any> = [];
-var total:number = 0;
+export const cart:Array<any> = [];
+export var total:number = 0;
 
-function addToCart(card: Card, quantity: number){
+export function addToCart(card: Card, quantity: number){
 
     for(var i = 0; i < quantity; i++){
         cart.push({
