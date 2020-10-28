@@ -15,7 +15,8 @@ function registro(req, res) {
         name: nombre,
         lastname: "",
         age: "",
-        dpi: ""
+        dpi: "",
+        payment: []
     };
     mongo().connect(async (error, client) => {
         if (error) {
