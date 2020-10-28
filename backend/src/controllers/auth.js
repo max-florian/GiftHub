@@ -42,7 +42,7 @@ function login(req, res) {
 
         client.close();
         const token = generateToken({ user: user._id });
-        response(res, 200, true, 'Ha iniciado sesion correctamente', { emailusername, token });
+        response(res, 200, true, 'Ha iniciado sesion correctamente', { userid: user._id, token });
     });
 }
 

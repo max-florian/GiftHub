@@ -6,6 +6,8 @@ export default function Login() {
 
     return (
         <form>
+            <h1 style={{ fontSize: 40, margin: 20 }}>Gifthub</h1>
+            <h4 style={{ margin: 20 }}>Inicia sesión para continuar</h4>
             <div className="form-group">
                 <div style={{ display: 'flex' }}>
                     <label style={{ fontSize: 20 }} htmlFor="emailInput">Correo electrónico o nombre de usuario</label>
