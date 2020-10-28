@@ -125,8 +125,10 @@ const usePagoTarjeta = ({total,carrito}:Init) => {
         tarjetaNueva: tarjeta
       }})
       .then(response => {
-        // Notificacion de pago exitoso etc
-        console.log(response)
+        if(response.ok){
+          // Notificacion de pago exitoso etc
+          console.log('Pago exitoso')
+        }
       }).catch(error => {
         console.error(error);
         setErrors(error)

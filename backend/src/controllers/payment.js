@@ -71,7 +71,7 @@ function payment(req, res) {
       detalle: carrito
     })
     client.close();
-    response(res, 200, true, 'Se ha realizado la compra exitosamente!', { });
+    response(res, 200, true, 'Se ha realizado la compra exitosamente!',{ });
   });
 }
 
