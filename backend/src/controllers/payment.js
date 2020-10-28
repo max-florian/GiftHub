@@ -59,13 +59,21 @@ function payment(req, res) {
         delete carrito[i].user_id
       })
     }
+
+    /** Se agregan los nombre a la transaccion para evitar join**/
+    const user = await client.db().collection("users")
+      .findOne({ _id: new ObjectId(id) });
+
+
     /** Se registra la transaccion de venta **/
     collection = client.db().collection("transaccion")
     await collection.insertOne({
-      fecha: Date("<dd-mm-YYYY>"),
+      fecha: new Date(),
       tipo: "Compra",
       origen: "Tienda",
+      origenname: 'Tienda',
       destino: id,
+      destinoname: user.name +' '+ user.lastname,
       total: total,
       tarjeta: encpritNotarjeta,
       detalle: carrito
