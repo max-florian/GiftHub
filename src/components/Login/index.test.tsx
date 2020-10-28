@@ -10,7 +10,8 @@ jest.mock('react-router-dom', () => {
     return {
         useHistory: jest.fn().mockImplementation(() => {
             return {
-                replace: jest.fn()
+                replace: jest.fn(),
+                goBack: jest.fn()
             }
         })
     }

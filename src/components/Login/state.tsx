@@ -1,6 +1,6 @@
-import { ChangeEvent, MouseEvent as EventMouse, useState } from "react";
+import { ChangeEvent, MouseEvent as EventMouse, useEffect, useState } from "react";
 import utils from "../../utils/callApi";
-import { saveToken, saveUserId } from "../../utils/storage";
+import { getToken, saveToken, saveUserId } from "../../utils/storage";
 import { useHistory } from "react-router-dom";
 
 export default function useLoginState() {
@@ -8,6 +8,12 @@ export default function useLoginState() {
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
     const history = useHistory();
+
+    useEffect(() => {
+        if (getToken()) {
+            return history.goBack();
+        }
+    }, [])
 
     const login = (e: EventMouse<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
