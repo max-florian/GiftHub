@@ -1,5 +1,6 @@
 import React from 'react'
 import {useInventoryState} from './userInventoryState'
+import './flipingCard.css'
 
 export interface UserCard {
     _id: string,
@@ -45,14 +46,24 @@ export function Item({card}: {card:UserCard}){
 
     return (
         <div className="card w-100">
-            <img className="card-img-top h-50" src={card.card_image} style={{minHeight:350, maxHeight:350}}/>
+            <div className="card-header">
+                <div className="flip-card">
+                    <div className="flip-card-inner">
+                        <div className="flip-card-front">
+                            <img className="flip-image" src={card.card_image} />
+                        </div>
+                        <div className="flip-card-back">
+                        <p className='flip-text'><strong>{card.card_name} Card - ${card.card_value}</strong></p> 
+                        <p className='flip-text'>Precio: Q. {card.card_price?.toFixed(2)}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div className="card-body">
                 <h5 className="card-title text-center">{card.card_name} ${card.card_value}</h5>
                 <div className="row justify-content-center">
                     <div className="col-8">
-                        <button className="btn btn-success btn-block">
-                            <span className='fas fa-eye'> </span>Detalle
-                        </button>
                         <button className="btn btn-warning btn-block">
                             <span className='fas fa-gift'> </span>Transferir
                         </button>

@@ -8,11 +8,9 @@
 }
 
 .inner-containter {
-  display: flex;
   height: 90vh;
-  /* align-items: center; */
-  /* justify-content: center; */
   font-size: 3rem;
+  padding: 30px;
 }
 
 
