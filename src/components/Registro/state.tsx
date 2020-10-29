@@ -34,11 +34,6 @@ export default function useRegistroState() {
         });
     }
 
-    const login = (event: any) => {
-        event.preventDefault();
-        history.replace('/');
-    }
-
     const onChangeNombre = (event: ChangeEvent<HTMLInputElement>) => {
         setNombre(event.target.value);
     }
@@ -74,9 +69,6 @@ export default function useRegistroState() {
         },
         registro: {
             onClick: registro
-        },
-        login: {
-            onClick: login
         },
         respuesta: {
             message: respuestaMessage
