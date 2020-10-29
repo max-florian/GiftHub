@@ -7,6 +7,7 @@ import {
 import './App.css';
 import {Header} from './components/Header';
 import Login from './components/Login';
+import Registro from './components/Registro/index';
 import Profile from './components/Profile';
 import UserInventory from './components/UserInventory/index'
 import Home from './components/Home/Index'
@@ -27,6 +28,9 @@ function App() {
           <Switch>
             <Route path="/" exact>
               <Login />
+            </Route>
+            <Route path="/registro" exact>
+              <Registro />
             </Route>
             <Route path="/profile" exact>
               <Profile />

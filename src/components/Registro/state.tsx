@@ -1,5 +1,6 @@
 import { ChangeEvent, MouseEvent as EventMouse, useState } from "react";
-import callApi from "../../utils/callApi";
+import utils from "../../utils/callApi";
+import { useHistory } from "react-router-dom";
 
 export default function useRegistroState() {
     const [nombre, setNombre] = useState<string>('');
@@ -7,10 +8,11 @@ export default function useRegistroState() {
     const [email, setEmail] = useState<string>('');
     const [contrasena, setContrasena] = useState<string>('');
     const [respuestaMessage, setRespuestaMessage] = useState<string>('');
+    const history = useHistory();
 
     const registro = (e: EventMouse<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        callApi({
+        utils.callApi({
             uri: '/registro',
             method: 'POST',
             body: {
@@ -19,8 +21,13 @@ export default function useRegistroState() {
                 email: email,
                 contrasena: contrasena
             }
-        }).then((data) => {
-            setRespuestaMessage(data.message);
+        }).then((response) => {
+            if (!response.ok){ 
+                setRespuestaMessage(response.message);
+            }else {
+                setRespuestaMessage(response.message);
+                history.replace('/');
+            };
         });
     }
 

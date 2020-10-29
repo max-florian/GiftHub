@@ -34,7 +34,7 @@ export default function useLoginState() {
                 setPassword('');
                 saveToken(response.data.token);
                 saveUserId(response.data.userid);
-                history.replace('/profile');
+                history.replace('/home');
             };
         });
     }
