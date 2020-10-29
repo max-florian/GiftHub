@@ -1,6 +1,6 @@
 const response = require('./response');
 const mongo = require('../db');
-
+const bcrypt = require('bcrypt');
 
 function registro(req, res) {
     const { nombre, id, email, contrasena } = req.body;
@@ -8,16 +8,22 @@ function registro(req, res) {
     if (!nombre || !contrasena || !email || !id) {
         return response(res, 400, false, 'Llene todos los campos');
     }
-    const nuevousuario = {
-        username: id,
-        password: contrasena,
-        email: email,
-        name: nombre,
-        lastname: "",
-        age: "",
-        dpi: "",
-        payment: []
-    };
+    var nuevousuario = {};
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(contrasena, salt, function(err, hash) {
+            nuevousuario = {
+                username: id,
+                password: hash,
+                email: email,
+                name: nombre,
+                lastname: "",
+                age: "",
+                dpi: "",
+                payment: []
+            };
+        });
+    });
+    
     mongo().connect(async (error, client) => {
         if (error) {
             return response(res, 501, false, 'Ha ocurrido un error en el servidor', { error });
