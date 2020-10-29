@@ -2,7 +2,7 @@ import React from "react";
 import useLoginState from "./state";
 
 export default function Login() {
-    const { emailOrUsername, password, login, error } = useLoginState();
+    const { emailOrUsername, password, login, registro, error } = useLoginState();
 
     return (
         <>
@@ -36,7 +36,7 @@ export default function Login() {
                     </div>
                     <div className="row row-cols-1 row-cols-sm-2">
                         <div style={{ marginTop: 8 }} className="col">
-                            <button type="button" className="btn btn-secondary btn-block">Crea una cuenta</button>
+                            <button type="button" className="btn btn-secondary btn-block" onClick={registro.onClick}>Crea una cuenta</button>
                         </div>
                         <div style={{ marginTop: 8 }} className="col">
                             <button type="submit" className="btn btn-primary btn-block" onClick={login.onClick}>Entrar</button>

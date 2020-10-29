@@ -26,9 +26,17 @@ export default function useRegistroState() {
                 setRespuestaMessage(response.message);
             }else {
                 setRespuestaMessage(response.message);
-                history.replace('/');
+                setTimeout(function(){
+                    history.replace('/');
+                }, 2000);
+                
             };
         });
+    }
+
+    const login = (event: any) => {
+        event.preventDefault();
+        history.replace('/');
     }
 
     const onChangeNombre = (event: ChangeEvent<HTMLInputElement>) => {
@@ -66,6 +74,9 @@ export default function useRegistroState() {
         },
         registro: {
             onClick: registro
+        },
+        login: {
+            onClick: login
         },
         respuesta: {
             message: respuestaMessage

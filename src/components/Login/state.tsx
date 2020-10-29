@@ -39,6 +39,11 @@ export default function useLoginState() {
         });
     }
 
+    const registro = (e: EventMouse<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        history.replace('/registro');
+    }
+
     const onChangeEmailOrUsername = (event: ChangeEvent<HTMLInputElement>) => {
         setEmailOrUsername(event.target.value);
     }
@@ -58,6 +63,9 @@ export default function useLoginState() {
         },
         login: {
             onClick: login
+        },
+        registro: {
+            onClick: registro
         },
         error: {
             message: errorMessage
