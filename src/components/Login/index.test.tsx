@@ -6,6 +6,11 @@ import Login from '.';
 import useLoginState from "./state";
 import utils from "../../utils/callApi";
 
+jest.mock('../../hooks/globalState', () => ({
+    useLoggedState: () => ({ setLogged: () => { } }),
+    useUserIdState: () => ({ setUserId: () => { } })
+}))
+
 jest.mock('react-router-dom', () => {
     return {
         useHistory: jest.fn().mockImplementation(() => {

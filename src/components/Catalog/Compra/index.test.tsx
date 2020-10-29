@@ -6,6 +6,24 @@ import { act as act_hook, renderHook} from '@testing-library/react-hooks'
 
 import {card} from '../catalog.mock'
 
+jest.mock('../../../hooks/globalState', () => ({
+    useLoggedState: () => ({ setLogged: () => { } }),
+    useUserIdState: () => ({ setUserId: () => { } })
+}))
+
+const mockReplace = jest.fn();
+const mockPush = jest.fn();
+jest.mock('react-router-dom', () => {
+    return {
+        useHistory: jest.fn().mockImplementation(() => {
+            return {
+                replace: mockReplace,
+                push: mockPush
+            }
+        })
+    }
+})
+
 describe("Catalogo de compra de giftcards", () => {
 
     describe("Vista de Componentes", () => {

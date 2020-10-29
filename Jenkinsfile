@@ -19,6 +19,17 @@ pipeline {
                 sh './jenkins/scripts/test.sh'
             }
         }
+        // stage('SonarQubeanalysis') {
+        //     steps{
+        //         script {
+        //             scannerHome = tool 'SonarQubeScanner2.12'
+        //             // Here this tool is directly based on the name, get the path of the automatically installed plugin
+        //         }
+        //         withSonarQubeEnv('SonarQube') {
+        //             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=gifthub -Dsonar.sources=."
+        //         }
+        //     }
+        // }
     }
     post {
         always {

@@ -62,9 +62,9 @@ export default function Registro() {
                                 <button type="submit" className="btn btn-primary btn-block" id="btnRegistro" onClick={registro.onClick}>Registrarse</button>
                             </div>
                         </div>
-                        <Link to="/">
+                        <a href="/">
                             ¿Ya tienes una cuenta? Inicia Sesión
-                        </Link>
+                        </a>
                         {
                             respuesta.message.length > 0 &&
                             <div style={{ marginTop: 8, fontSize: 16 }} id="alertRegistro" className="alert alert-primary" role="alert">

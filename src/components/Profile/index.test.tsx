@@ -8,16 +8,22 @@ import utils from "../../utils/callApi";
 import * as storage from "../../utils/storage";
 
 const mockReplace = jest.fn();
-
+const mockPush = jest.fn();
 jest.mock('react-router-dom', () => {
     return {
         useHistory: jest.fn().mockImplementation(() => {
             return {
-                replace: mockReplace
+                replace: mockReplace,
+                push: mockPush
             }
         })
     }
 })
+
+jest.mock('../../hooks/globalState', () => ({
+    useLoggedState: () => ({ setLogged: () => { } }),
+    useUserIdState: () => ({ setUserId: () => { } })
+}))
 
 describe('Pantalla de Perfil', () => {
 
