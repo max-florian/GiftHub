@@ -17,8 +17,8 @@ function registro(req, res) {
                 email: email,
                 name: nombre,
                 lastname: "",
-                age: "",
-                dpi: "",
+                age: 0,
+                dpi: 0,
                 payment: []
             };
         });

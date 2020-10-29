@@ -46,7 +46,7 @@ export default function Registro() {
                 <input
                     id="contrasenaInput"
                     className="form-control"
-                    type="text"
+                    type="password"
                     onChange={contrasena.onChange}
                     value={contrasena.value} />
             </div>
