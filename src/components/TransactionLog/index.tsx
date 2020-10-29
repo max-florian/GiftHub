@@ -86,7 +86,7 @@ export default function TransactionLog({dataSet}:{dataSet:any}){
 
     return(
         <>
-        <div className="mt-4 mx-4">
+        <div className="mx-4" style={{padding: 20}}>
             <h1>Log de Transacciones</h1>
             <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.22/sl-1.3.1/datatables.min.css"/>
             <table

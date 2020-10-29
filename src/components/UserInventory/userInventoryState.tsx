@@ -3,6 +3,7 @@ import {UserCard} from "."
 import utils from  '../../utils/callApi'
 import { useHistory } from "react-router-dom";
 import { getUserId } from "../../utils/storage";
+import useSessionController from "../../hooks/useSessionController";
 
 export function useCardState(){
     const [amount, setAmount] = useState<number>(0);
@@ -15,6 +16,7 @@ export function useCardState(){
 }
 
 export function useInventoryState(){
+    useSessionController({});
     const [items, setItems] = useState<Array<UserCard>>(new Array<UserCard>())
     const [errorMessage, setErrorMessage] = useState<string>('')
     const userId = getUserId();

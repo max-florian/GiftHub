@@ -1,5 +1,6 @@
 import { ChangeEvent, MouseEvent as EventMouse, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import useSessionController from "../../hooks/useSessionController";
 import api from "../../utils/callApi";
 import { getUserId } from "../../utils/storage";
 
@@ -24,6 +25,7 @@ interface User {
 }
 
 export default function useProfileState() {
+    useSessionController({});
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
     const [user, setUser] = useState<User>({
@@ -45,7 +47,7 @@ export default function useProfileState() {
 
         api.callApi({ uri: `/users/${userId}` })
             .then(response => {
-                if (response.statuscode == 401) return history.replace('/');
+                if (response.statuscode === 401) return history.replace('/');
                 changeUser(response.data.user as User)
                 setLoading(false);
             }).catch(error => {
@@ -68,10 +70,6 @@ export default function useProfileState() {
                 console.error(error);
                 setUpdating(false);
             })
-    }
-
-    const goBack = () => {
-        history.goBack();
     }
 
     const changeUser = (newInfo: User) => {
@@ -118,8 +116,7 @@ export default function useProfileState() {
             setAge
         },
         actions: {
-            updateProfile,
-            goBack
+            updateProfile
         },
         loading,
         updating

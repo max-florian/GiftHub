@@ -7,19 +7,23 @@ import useProfileState from "./state";
 import utils from "../../utils/callApi";
 import * as storage from "../../utils/storage";
 
-const mockgoBack = jest.fn().mockImplementation();
 const mockReplace = jest.fn();
-
+const mockPush = jest.fn();
 jest.mock('react-router-dom', () => {
     return {
         useHistory: jest.fn().mockImplementation(() => {
             return {
                 replace: mockReplace,
-                goBack: mockgoBack
+                push: mockPush
             }
         })
     }
 })
+
+jest.mock('../../hooks/globalState', () => ({
+    useLoggedState: () => ({ setLogged: () => { } }),
+    useUserIdState: () => ({ setUserId: () => { } })
+}))
 
 describe('Pantalla de Perfil', () => {
 
@@ -63,14 +67,6 @@ describe('Pantalla de Perfil', () => {
         await act(async () => result.current.handles.setPassword({ target: { value: 'password' } }));
         expect(result.current.user.password).toBe('password');
 
-    })
-
-    test('Debe redirigir hacia atras usando history de react-router-dom', async () => {
-        const { result } = renderHook(() => useProfileState());
-
-        //@ts-ignore
-        await act(async () => result.current.actions.goBack());
-        expect(mockgoBack).toHaveBeenCalled();
     })
 
     test('Debe actualizar el perfil del usuario', async () => {

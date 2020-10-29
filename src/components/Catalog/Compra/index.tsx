@@ -1,4 +1,5 @@
 import React from "react"
+import useSessionController from "../../../hooks/useSessionController";
 import {Card} from "../index"
 import {useInventoryState} from "../state"
 import {useItemState} from "./state"
@@ -73,6 +74,7 @@ export function Item({card}: {card:Card}){
 }
 
 export default function Inventory(){
+    useSessionController({});
     const state = useInventoryState();
     const items = state.items;
 
@@ -81,7 +83,7 @@ export default function Inventory(){
     }
 
     return (
-        <div className="mt-4 mx-4">
+        <div className="mx-4" style={{ padding: 20 }}>
             <div className="row">
                 <button className="btn btn-block btn-primary" onClick={proceedToPaymentClickHandler}>
                     Proceder a Pago

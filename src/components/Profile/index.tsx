@@ -6,7 +6,7 @@ export default function Profile() {
 
     return (
         <Fragment>
-            <h1 style={{ fontSize: 40, margin: 20 }}>Mi perfil</h1>
+            <h1 style={{ fontSize: 40, padding: 20 }}>Mi perfil</h1>
             {
                 loading ? <div>Cargando...</div>
                     : 
@@ -70,9 +70,6 @@ export default function Profile() {
                                     onChange={handles.setPassword} />
                             </div> */}
                             <div className="row">
-                                <div className="col">
-                                    <button type="submit" className="btn btn-secondary btn-block" onClick={actions.goBack}>Back</button>
-                                </div>
                                 <div className="col">
                                     <button type="submit" className="btn btn-primary btn-block"
                                         onClick={actions.updateProfile}

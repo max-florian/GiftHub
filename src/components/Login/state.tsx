@@ -2,12 +2,14 @@ import { ChangeEvent, MouseEvent as EventMouse, useEffect, useState } from "reac
 import utils from "../../utils/callApi";
 import { getToken, saveToken, saveUserId } from "../../utils/storage";
 import { useHistory } from "react-router-dom";
+import { useLoggedState } from "../../hooks/globalState";
 
 export default function useLoginState() {
     const [emailOrUsername, setEmailOrUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
     const history = useHistory();
+    const { setLogged } = useLoggedState()
 
     useEffect(() => {
         if (getToken()) {
@@ -35,6 +37,7 @@ export default function useLoginState() {
                 saveToken(response.data.token);
                 saveUserId(response.data.userid);
                 history.replace('/home');
+                setLogged!(true);
             };
         });
     }

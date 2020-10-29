@@ -50,7 +50,7 @@ export function Item({card}: {card:UserCard}){
                 <div className="flip-card">
                     <div className="flip-card-inner">
                         <div className="flip-card-front">
-                            <img className="flip-image" src={card.card_image} />
+                            <img className="flip-image" src={card.card_image} alt={""} />
                         </div>
                         <div className="flip-card-back">
                         <p className='flip-text'><strong>{card.card_name} Card - ${card.card_value}</strong></p> 

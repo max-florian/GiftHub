@@ -14,11 +14,17 @@ jest.mock('react-router-dom', () => {
         useHistory: jest.fn().mockImplementation(() => {
             return {
                 replace: mockReplace,
-                goBack: mockgoBack
+                goBack: mockgoBack,
+                push: jest.fn()
             }
         })
     }
 })
+
+jest.mock('../../hooks/globalState', () => ({
+    useLoggedState: () => ({ setLogged: () => { } }),
+    useUserIdState: () => ({ setUserId: () => { } })
+}))
 
 describe('Pantalla de Perfil', () => {
     test('Debe renderizar Correctamente', () => {

@@ -56,6 +56,6 @@ describe('Pantalla de Registro', () => {
 
         waitFor(() => expect(result.current.contrasena.value).toBe(''));
         waitFor(() => expect(result.current.email.value).toBe(''));
-        expect(result.current.error.message).toBe('');
+        expect(result.current.respuesta.message).toBe('');
     })
 });

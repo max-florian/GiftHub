@@ -1,4 +1,5 @@
 import React from "react"
+import useSessionController from "../../../hooks/useSessionController";
 import {Card} from '../index';
 import {useInventoryState} from '../state'
 
@@ -23,6 +24,7 @@ export function Item({card}: {card:Card}){
 }
 
 export default function Inventory(){
+    useSessionController({adminOnly: true});
     const state = useInventoryState();
     const items = state.items;
 
