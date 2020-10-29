@@ -5,14 +5,17 @@ import {
   Route
 } from "react-router-dom";
 import './App.css';
-import Header from './components/Header';
+import {Header} from './components/Header';
 import Login from './components/Login';
 import Profile from './components/Profile';
-import  Navbar  from "./components/mainLayout/Navbar"
 import UserInventory from './components/UserInventory/index'
 import Home from './components/Home/Index'
+import Inventory from './components/Catalog/Compra/index'
+import TransactionLogUser from './components/TransactionLog/User/index'
 
 function App() {
+  
+
   return (
     <BrowserRouter>
       <div className="App">
@@ -28,6 +31,8 @@ function App() {
             </Route>
             <Route path='/' exact component={Home}></Route>
             <Route path='/inventariousuario' exact component={UserInventory}></Route>
+            <Route path='/carrocompra' exact component={Inventory}></Route>
+            {/* <Route path='/transactionlog' exact component={TransactionLogUser}></Route> */}
           </Switch>
         </div>
       </div>

@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react"
 import {UserCard} from "."
 import utils from  '../../utils/callApi'
-//import { getToken } from "../../utils/storage";
+import { useHistory } from "react-router-dom";
+import { getUserId } from "../../utils/storage";
 
 export function useCardState(){
     const [amount, setAmount] = useState<number>(0);
@@ -16,11 +17,13 @@ export function useCardState(){
 export function useInventoryState(){
     const [items, setItems] = useState<Array<UserCard>>(new Array<UserCard>())
     const [errorMessage, setErrorMessage] = useState<string>('')
-    //const user = getToken();
+    const userId = getUserId();
+    const history = useHistory();
     useEffect(() => {
+        if (!userId) return history.replace('/');
         try{
             utils.callApi({
-                uri: '/userCards/5f99fdba946d8a0683db100e',
+                uri: '/userCards/'+userId,
                 method: 'GET',
                 body: {}
             }).then((response) => {
