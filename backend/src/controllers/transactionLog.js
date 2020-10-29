@@ -14,7 +14,7 @@ function transactionLog(req, res) {
         }
         const query = await client.db().collection("transaccion").aggregate([
             {$match: filter},
-            //{$addFields: { fecha: {$dateToString: {format: "%Y-%m-%d", date: 'fecha', timezone: 'America/Guatemala'}}}},
+            {$addFields: { fecha: {$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: '$fecha', timezone: 'America/Guatemala'}}}},
             {$sort: {fecha:-1}}
         ]);
 
