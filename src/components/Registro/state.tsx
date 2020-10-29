@@ -6,7 +6,7 @@ export default function useRegistroState() {
     const [id, setId] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [contrasena, setContrasena] = useState<string>('');
-    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [respuestaMessage, setRespuestaMessage] = useState<string>('');
 
     const registro = (e: EventMouse<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -20,8 +20,7 @@ export default function useRegistroState() {
                 contrasena: contrasena
             }
         }).then((data) => {
-            if (!data.ok) setErrorMessage(data.message);
-            else setErrorMessage('');
+            setRespuestaMessage(data.message);
         });
     }
 
@@ -61,8 +60,8 @@ export default function useRegistroState() {
         registro: {
             onClick: registro
         },
-        error: {
-            message: errorMessage
+        respuesta: {
+            message: respuestaMessage
         }
     }
 }

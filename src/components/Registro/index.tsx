@@ -2,7 +2,7 @@ import React from "react";
 import useRegistroState from "./state";
 
 export default function Registro() {
-    const { nombre, id, email, contrasena, registro, error } = useRegistroState();
+    const { nombre, id, email, contrasena, registro, respuesta } = useRegistroState();
 
     return (
         <form>
@@ -57,9 +57,9 @@ export default function Registro() {
             </div>
             <a href="index.html">¿Ya tienes una cuenta? Inicia Sesión</a>
             {
-                error.message.length > 0 &&
-                <div style={{ marginTop: 8, fontSize: 16 }} className="alert alert-danger" role="alert">
-                    {error.message}
+                respuesta.message.length > 0 &&
+                <div style={{ marginTop: 8, fontSize: 16 }} id="alertRegistro" className="alert alert-primary" role="alert">
+                    {respuesta.message}
                 </div>
             }
         </form>

@@ -32,9 +32,9 @@ function registro(req, res) {
             if (err) throw err;
             console.log("Usuario insertado!");
             client.close();
-            //response(res, 200, true, 'Se ha registrado exitosamente!', { user:  nuevousuario.username});
+            
         });
-        
+        return response(res, 200, true, 'Usuario registrado exitosamente!');
     });
 }
 
