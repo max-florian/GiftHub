@@ -9,6 +9,20 @@ export function TransactionDetail({transaction}:{transaction:any}){
         return <></>
     }
     return (
+        <>
+        <dl className="row">
+            <dt className="col-sm-3">Fecha</dt>
+            <dd className="col-sm-9">{transaction.fecha}</dd>
+
+            <dt className="col-sm-3">Origen</dt>
+            <dd className="col-sm-9">{transaction.origenname}</dd>
+
+            <dt className="col-sm-3">Destino</dt>
+            <dd className="col-sm-9">{transaction.destinoname}</dd>
+
+            <dt className="col-sm-3">Total</dt>
+            <dd className="col-sm-9">{transaction.total}</dd>
+        </dl>
         <table className="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -22,7 +36,7 @@ export function TransactionDetail({transaction}:{transaction:any}){
             <tbody>
                 {transaction.detalle.map((item:any, index:any) => (
                     <tr key={index}>
-                        <td>{index}</td>
+                        <td>{index + 1}</td>
                         <td>{item.card_id}</td>
                         <td>{item.card_name}</td>
                         <td>{item.card_value}</td>
@@ -31,24 +45,28 @@ export function TransactionDetail({transaction}:{transaction:any}){
                 ))}
             </tbody>
         </table>
+        </>
     )
 }
 
 export default function TransactionLog({dataSet}:{dataSet:any}){
+    console.log("Received in child");
+    console.log(dataSet);
     var $el:any = undefined
     const [selectedTransaction, setSelectedTransaction] = useState(null);
 
     useEffect(() => {
-        if($el === undefined)
-            return;
         var dt = $el.DataTable({
             data: dataSet,
-            select: 'single',
+            select: {
+                style: 'single',
+                className: 'selected'
+            },
             columns: [
                 { title: "Fecha", data:'fecha' },
                 { title: "Tipo Transac.", data:'tipo' },
-                { title: "Origen", data: 'origen' },
-                { title: "Destino", data:"destino" },
+                { title: "Origen", data: 'origenname' },
+                { title: "Destino", data:"destinoname" },
                 { title: "Total", data: 'total' },    
                 { title: "Tarjeta", data: 'tarjeta' },               
             ]
@@ -60,9 +78,9 @@ export default function TransactionLog({dataSet}:{dataSet:any}){
         })
 
         return function cleanup(){
-            dt.destroy(true);
+            dt.destroy();
         }
-    },[$el])
+    })
 
     return(
         <>
