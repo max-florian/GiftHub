@@ -8,6 +8,7 @@ export function TransactionDetail({transaction}:{transaction:any}){
     if(transaction == null){
         return <></>
     }
+
     return (
         <>
         <dl className="row">
@@ -50,12 +51,13 @@ export function TransactionDetail({transaction}:{transaction:any}){
 }
 
 export default function TransactionLog({dataSet}:{dataSet:any}){
-    console.log("Received in child");
-    console.log(dataSet);
     var $el:any = undefined
     const [selectedTransaction, setSelectedTransaction] = useState(null);
 
     useEffect(() => {
+        if($el === undefined)
+            return;
+
         var dt = $el.DataTable({
             data: dataSet,
             select: {
