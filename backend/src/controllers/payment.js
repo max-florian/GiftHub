@@ -27,7 +27,7 @@ function payment(req, res) {
     })
   } else {
     encpritNotarjeta = req.body.tarjetaRegistrada
-    console.log(encpritNotarjeta)
+    // console.log(encpritNotarjeta)
   }
 
   /** Se valida el pago con el banco**/
@@ -73,7 +73,7 @@ function payment(req, res) {
       origen: "Tienda",
       origenname: 'Tienda',
       destino: id,
-      destinoname: user.name +' '+ user.lastname,
+      destinoname: user.username,
       total: total,
       tarjeta: encpritNotarjeta,
       detalle: carrito
