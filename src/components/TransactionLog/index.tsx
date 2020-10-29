@@ -1,65 +1,103 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const $ = require("jquery");
 $.DataTable = require("datatables.net-bs4");
+require( 'datatables.net-select-bs4' )
 
-const dataSet:Array<any> = [
-    {
-     id: 1,
-     name: "Tiger Nixon",
-     position: "System Architect",
-     office: "Edinburgh",
-     ext: 5421,
-     date: "2011/04/25",
-     salary: "$320,800",
-  },
-{
-     id: 2,
-     name: "Garrett Winters",
-     position: "Accountant",
-     office: "Tokyo",
-     ext: 8422,
-     date: "2011/07/25",
-     salary: "$170,750",
-},
-{
-    id: 3,
-    name: "Ashton Cox",
-    position: "Junior Technical Author",
-    office: "San Francisco",
-    ext: 1562,
-    date: "2009/01/12",
-    salary: "$86,000",
-},
-];
+export function TransactionDetail({transaction}:{transaction:any}){
+    if(transaction == null){
+        return <></>
+    }
+    return (
+        <table className="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Item #</th>
+                    <th>Card ID</th>
+                    <th>Card Name</th>
+                    <th>Card Value</th>
+                    <th>Card Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {transaction.detalle.map((item:any, index:any) => (
+                    <tr key={index}>
+                        <td>{index}</td>
+                        <td>{item.card_id}</td>
+                        <td>{item.card_name}</td>
+                        <td>{item.card_value}</td>
+                        <td>{item.card_price}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    )
+}
 
-export default function TransactionLog(){
+export default function TransactionLog({dataSet}:{dataSet:any}){
     var $el:any = undefined
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
 
     useEffect(() => {
-        $el.DataTable({
-            dom: "<'row'<'col-12'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        if($el === undefined)
+            return;
+        var dt = $el.DataTable({
             data: dataSet,
+            select: 'single',
             columns: [
-                { title: "Name", data:'name' },
-                { title: "Position", data:'position' },
-                { title: "Office", data:'office' },
-                { title: "Extn.", data: 'ext' },
-                { title: "Start date", data:"date" },
-                { title: "Salary", data: 'salary' },                
+                { title: "Fecha", data:'fecha' },
+                { title: "Tipo Transac.", data:'tipo' },
+                { title: "Origen", data: 'origen' },
+                { title: "Destino", data:"destino" },
+                { title: "Total", data: 'total' },    
+                { title: "Tarjeta", data: 'tarjeta' },               
             ]
         })
-    })
+
+        dt.on('select', function(e:any, dt:any, type:any, indexes:any){
+            setSelectedTransaction(dt.row(indexes).data());
+            $("#hackButton").click();
+        })
+
+        return function cleanup(){
+            dt.destroy(true);
+        }
+    },[$el])
 
     return(
+        <>
         <div className="mt-4 mx-4">
+            <h1>Log de Transacciones</h1>
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.22/sl-1.3.1/datatables.min.css"/>
             <table
-                className="table table-striped table-hover"
+                className="table table-striped table-bordered"
                 id="dataTable"
                 ref={(el) => {$el = $(el)}}
             />
         </div>
+        
+        <div className="modal fade" id="detailModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Detalle Transaccion</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <TransactionDetail transaction={selectedTransaction}/>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button id="hackButton" type="button" data-toggle="modal" data-target="#detailModal" hidden={true}>
+            Hack
+        </button>
+        </>
     )
 }
