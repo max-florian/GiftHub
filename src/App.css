@@ -13,6 +13,18 @@
   padding: 30px;
 }
 
+.table {
+  color: white;
+}
+
+.modal{
+  color:black
+}
+
+.modal .table{
+  color: black;
+}
+
 
 .App {
   text-align: center;
@@ -27,6 +39,10 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.card{
+  color: black;
 }
 
 .App-header {

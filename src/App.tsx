@@ -12,6 +12,8 @@ import UserInventory from './components/UserInventory/index'
 import Home from './components/Home/Index'
 import Inventory from './components/Catalog/Compra/index'
 import TransactionLogUser from './components/TransactionLog/User/index'
+import TransactionAdmin from './components/TransactionLog/Admin/index'
+import InventoryAdmin from './components/Catalog/Admin'
 
 function App() {
   
@@ -30,9 +32,12 @@ function App() {
               <Profile />
             </Route>
             <Route path='/' exact component={Home}></Route>
+            <Route path='/home' exact component={Home}></Route>
             <Route path='/inventariousuario' exact component={UserInventory}></Route>
             <Route path='/carrocompra' exact component={Inventory}></Route>
-            {/* <Route path='/transactionlog' exact component={TransactionLogUser}></Route> */}
+            <Route path='/transactionlog' exact component={TransactionLogUser}></Route>
+            <Route path='/transactionadmin' exact component={TransactionAdmin}></Route>
+            <Route path='/catalogoadmin' exact component={InventoryAdmin}></Route>
           </Switch>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React ,  { useState } from "react";
 import { Link } from "react-router-dom";
 import { removeToken, removeUserId } from "../../utils/storage";
-import { navItems} from "../mainLayout/navItems";
+import { navItems, navAdmin } from "../mainLayout/navItems";
 import { getUserId } from "../../utils/storage";
 
 export function removeData() {
@@ -11,7 +11,7 @@ export function removeData() {
 
 export function Header(){
     const usr = getUserId();
-    if(!usr){
+    if(usr){
         return HeaderLogged();
     }else{
         return Headerf();
@@ -19,6 +19,7 @@ export function Header(){
 }
 
 export function Headerf() {
+    
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link to="/" className="navbar-brand">Gifthub</Link>
@@ -43,6 +44,13 @@ export function Headerf() {
 export function HeaderLogged() {
     const [sidebar, setSidebar] = useState(false);
     const showSidebar = () =>setSidebar(!sidebar)
+    let nav = [];
+    const usr = getUserId();
+    if(usr == '5f9ad02f22e7fbe0282bf901'){
+        nav = navAdmin;
+    }else{
+        nav = navItems;
+    }
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link to="#" className="menu-bars">
@@ -68,7 +76,7 @@ export function HeaderLogged() {
                             <i className="fas fa-times"></i>
                         </Link>
                     </li>
-                    {navItems.map((item,index)=>{
+                    {nav.map((item,index)=>{
                         return(
                             <li key={index} className={item.cname}>
                                 <Link to={item.path}>
