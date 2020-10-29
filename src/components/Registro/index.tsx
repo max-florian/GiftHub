@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import useRegistroState from "./state";
 
 export default function Registro() {
-    const { nombre, id, email, contrasena, registro, login, respuesta } = useRegistroState();
+    const { nombre, id, email, contrasena, registro, respuesta } = useRegistroState();
 
     return (
         <>
@@ -10,8 +11,8 @@ export default function Registro() {
                 <div className='col-md-4'></div>
                 <div className='col-md-4'>
                     <form>
-                    <h1 style={{ fontSize: 40, margin: 20 }}>Gifthub</h1>
-                    <h4 style={{ margin: 20 }}>Registrate</h4>
+                        <h1 style={{ fontSize: 40, margin: 20 }}>Gifthub</h1>
+                        <h4 style={{ margin: 20 }}>Registrate</h4>
                         <div className="form-group">
                             <div style={{ display: 'flex' }}>
                                 <label htmlFor="nombreInput">Nombre</label>
@@ -61,7 +62,9 @@ export default function Registro() {
                                 <button type="submit" className="btn btn-primary btn-block" id="btnRegistro" onClick={registro.onClick}>Registrarse</button>
                             </div>
                         </div>
-                        <a href="" onClick={login.onClick}>¿Ya tienes una cuenta? Inicia Sesión</a>
+                        <Link to="/">
+                            ¿Ya tienes una cuenta? Inicia Sesión
+                        </Link>
                         {
                             respuesta.message.length > 0 &&
                             <div style={{ marginTop: 8, fontSize: 16 }} id="alertRegistro" className="alert alert-primary" role="alert">

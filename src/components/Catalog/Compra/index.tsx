@@ -83,7 +83,7 @@ export default function Inventory(){
     }
 
     return (
-        <div className="mt-4 mx-4">
+        <div className="mx-4" style={{ padding: 20 }}>
             <div className="row">
                 <button className="btn btn-block btn-primary" onClick={proceedToPaymentClickHandler}>
                     Proceder a Pago
