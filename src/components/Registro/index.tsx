@@ -52,7 +52,7 @@ export default function Registro() {
             </div>
             <div className="row">
                 <div style={{ marginTop: 8 }} className="col">
-                    <button type="submit" className="btn btn-primary btn-block" onClick={registro.onClick}>Registrarse</button>
+                    <button type="submit" className="btn btn-primary btn-block" id="btnRegistro" onClick={registro.onClick}>Registrarse</button>
                 </div>
             </div>
             <a href="index.html">¿Ya tienes una cuenta? Inicia Sesión</a>
