@@ -17,19 +17,21 @@ export default function UserInventory(){
     return(
         <>
         <div className='inner-containter'>
-            <nav aria-label="breadcrumb">
-                <ol className="breadcrumb">
-                    <li className="breadcrumb-item active" aria-current="page">Inventario</li>
-                </ol>
-            </nav>
             <div className='row'>
-            {items.val.map((item, index) => {
-                return (
-                    <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex align-items-center justify-content-center mt-5">
-                        <Item card={item}/>
-                    </div>
-                )
-            })}
+                <div className='col-md-12'>
+                    <h1>Inventario</h1>
+                </div>
+            </div>
+            
+            <div className='row'>
+
+                {items.val.map((item, index) => {
+                    return (
+                        <div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex align-items-center justify-content-center mt-5">
+                            <Item card={item}/>
+                        </div>
+                    )
+                })}
             </div>
         </div>
         </>
@@ -49,7 +51,10 @@ export function Item({card}: {card:UserCard}){
                 <div className="row justify-content-center">
                     <div className="col-8">
                         <button className="btn btn-success btn-block">
-                            <span className='fas fa-eye'></span>Ver
+                            <span className='fas fa-eye'> </span>Detalle
+                        </button>
+                        <button className="btn btn-warning btn-block">
+                            <span className='fas fa-gift'> </span>Transferir
                         </button>
                     </div>
                 </div>

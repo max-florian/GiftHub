@@ -20,7 +20,7 @@ export function useInventoryState(){
     useEffect(() => {
         try{
             utils.callApi({
-                uri: '/userCards/5f8687c57ae02f2fe580161a',
+                uri: '/userCards/5f99fdba946d8a0683db100e',
                 method: 'GET',
                 body: {}
             }).then((response) => {
