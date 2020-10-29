@@ -3,7 +3,6 @@ import useSessionController from "../../hooks/useSessionController";
 import {Card} from "./index"
 
 export function useInventoryState(){
-    useSessionController({adminOnly: true});
     const [items, setItems] = useState<Array<Card>>(new Array<Card>())
 
     useEffect(() => {

@@ -72,10 +72,6 @@ export default function useProfileState() {
             })
     }
 
-    const goBack = () => {
-        history.goBack();
-    }
-
     const changeUser = (newInfo: User) => {
         setUser((user) => ({ ...user, ...newInfo }));
     }
@@ -120,8 +116,7 @@ export default function useProfileState() {
             setAge
         },
         actions: {
-            updateProfile,
-            goBack
+            updateProfile
         },
         loading,
         updating
