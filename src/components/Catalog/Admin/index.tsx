@@ -29,7 +29,7 @@ export default function Inventory(){
     const items = state.items;
 
     return (
-        <div className="mt-4 mx-4">
+        <div className="mx-4"style={{padding: 20}}>
             <div className="row">
                 {items.val.map((item, index) => {
                     return (
