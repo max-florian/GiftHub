@@ -15,6 +15,8 @@ function getUserInventoryByFilter(filter) {
     })
 }
 
+function transfer()
+
 
 async function getUserCards(req, res) {
     const { id } = req.params;
@@ -26,6 +28,18 @@ async function getUserCards(req, res) {
         return response(res, 501, false, 'Ha ocurrido un error en el servidor', { error });
     }
 } 
+
+async function transfer(req, res) {
+    const { id } = req.params;
+
+    try {
+        const cards = await changeUser({ user_id: id })
+        return response(res, 200, true, 'Cards del usuario con id con id: ' + id, { cards });
+    } catch (error) {
+        return response(res, 501, false, 'Ha ocurrido un error en el servidor', { error });
+    }
+} 
+
 module.exports ={
     getUserCards
 }

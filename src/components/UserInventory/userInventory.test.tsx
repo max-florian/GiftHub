@@ -1,11 +1,7 @@
 import React from 'react';
 import { } from "react-test-renderer";
 import { render } from '@testing-library/react';
-import { renderHook, act } from "@testing-library/react-hooks";
 import Profile from '.';
-import {useInventoryState} from "./userInventoryState";
-import utils from "../../utils/callApi";
-
 const mockgoBack = jest.fn().mockImplementation();
 const mockReplace = jest.fn();
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {useInventoryState} from './userInventoryState'
+import {useInventoryState,useCardState} from './userInventoryState'
 import './flipingCard.css'
 
 export interface UserCard {
@@ -10,11 +10,18 @@ export interface UserCard {
     card_name: string,
     card_image: string,
     card_price?: number,
-    card_value?: number
+    card_value?: number,
+    show: false
 }
+
+export function transfer(user:string, cardid:string){
+
+}
+
 
 export default function UserInventory(){    
     const {items} = useInventoryState();
+
     return(
         <>
         <div className='inner-containter'>
@@ -35,15 +42,41 @@ export default function UserInventory(){
                 })}
             </div>
         </div>
+        <div className="modal fade" id="detailModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Detalle Transaccion</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className='row'>
+                    <div className='col-md-3'></div>
+                    <div className='col-md-6'>
+                        <label className='control-label'>Usuario</label>
+                        <input className='form-control' type='text'></input>
+                    </div>
+                    <div className='col-md-3'></div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button id="showmodal" type="button" data-toggle="modal" data-target="#detailModal" hidden={true}>
+        </button>
         </>
     );
 
 }
 
 export function Item({card}: {card:UserCard}){
-    //const state = useCardState();
-    //const price:number = card.card_price || 0;
-
+    const state = useCardState();
+    state.card.setCardId(card.card_id)
     return (
         <div className="card w-100">
             <div className="card-header">
@@ -64,7 +97,10 @@ export function Item({card}: {card:UserCard}){
                 <h5 className="card-title text-center">{card.card_name} ${card.card_value}</h5>
                 <div className="row justify-content-center">
                     <div className="col-8">
-                        <button className="btn btn-warning btn-block">
+                        <div className="col-8"  style={{marginTop:10, display:(card.show?'inherit':'none')}}>
+                            <input className='form-control' value={state.card.user} onChange={()=>state.card.setUsers} type='text'/> 
+                        </div>
+                        <button className="btn btn-warning btn-block" onClick={()=>transfer(state.card.user, card.card_id)} >
                             <span className='fas fa-gift'> </span>Transferir
                         </button>
                     </div>
