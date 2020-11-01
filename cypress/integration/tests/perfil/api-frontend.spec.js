@@ -1,7 +1,7 @@
 const { createYield } = require("typescript")
 
 describe('Test de POST/Profile', () => {
-    it('Actualizar informacion de perfil"',() => {
+    it('Actualizar informacion de perfil',() => {
 
         const datosUsuariop = {
             emailusername: "alexizzarevalo",

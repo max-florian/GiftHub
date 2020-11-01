@@ -1,7 +1,7 @@
 const { createYield } = require("typescript")
 
 describe('Test de POST/Registro', () => {
-    it('Registrar el usuario luego de presionar el "Registrarse"',() => {
+    it('Registrar el usuario luego de presionar el boton "Registrarse"',() => {
 
         const datosUsuario = {
             name: "Max Florian",
