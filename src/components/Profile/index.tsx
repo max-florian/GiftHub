@@ -71,7 +71,7 @@ export default function Profile() {
                             </div> */}
                             <div className="row">
                                 <div className="col">
-                                    <button type="submit" className="btn btn-primary btn-block"
+                                    <button type="submit" id="btnUpdate" className="btn btn-primary btn-block"
                                         onClick={actions.updateProfile}
                                         disabled={updating}>
                                         {

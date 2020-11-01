@@ -18,7 +18,7 @@ export default function Registro() {
                                 <label htmlFor="nombreInput">Nombre</label>
                             </div>
                             <input
-                                id="nombreInput"
+                                id="nombreInputR"
                                 className="form-control"
                                 type="text"
                                 onChange={nombre.onChange}
@@ -29,7 +29,7 @@ export default function Registro() {
                                 <label htmlFor="idInput">ID</label>
                             </div>
                             <input
-                                id="idInput"
+                                id="idInputR"
                                 className="form-control"
                                 type="text"
                                 onChange={id.onChange}
@@ -40,7 +40,7 @@ export default function Registro() {
                                 <label htmlFor="emailInput">Correo electrónico</label>
                             </div>
                             <input
-                                id="emailInput"
+                                id="emailInputR"
                                 className="form-control"
                                 type="text"
                                 onChange={email.onChange}
@@ -51,7 +51,7 @@ export default function Registro() {
                                 <label htmlFor="contrasenaInput">Contraseña</label>
                             </div>
                             <input
-                                id="contrasenaInput"
+                                id="contrasenaInputR"
                                 className="form-control"
                                 type="password"
                                 onChange={contrasena.onChange}
