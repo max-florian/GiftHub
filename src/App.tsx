@@ -16,6 +16,7 @@ import TransactionLogUser from './components/TransactionLog/User/index'
 import TransactionAdmin from './components/TransactionLog/Admin/index'
 import InventoryAdmin from './components/Catalog/Admin'
 import { GlobalStateProvider } from "./hooks/globalState";
+import { PagoTarjeta } from './components/PagoTarjeta';
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
               <Route path='/transactionlog' exact component={TransactionLogUser}></Route>
               <Route path='/transactionadmin' exact component={TransactionAdmin}></Route>
               <Route path='/catalogoadmin' exact component={InventoryAdmin}></Route>
+              <Route path='/pagoTarjeta' exact component={PagoTarjeta}></Route>
             </Switch>
           </div>
         </div>
