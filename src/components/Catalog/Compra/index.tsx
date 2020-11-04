@@ -1,4 +1,5 @@
 import React from "react"
+import { useHistory } from "react-router-dom";
 import useSessionController from "../../../hooks/useSessionController";
 import {Card} from "../index"
 import {useInventoryState} from "../state"
@@ -77,9 +78,17 @@ export default function Inventory(){
     useSessionController({});
     const state = useInventoryState();
     const items = state.items;
+    var history = useHistory();
 
     function proceedToPaymentClickHandler(){
-        proceedToPayment(items.val);
+        var props = {
+            total: total,
+            carrito: cart
+        }
+        localStorage.setItem('total', props.total.toString())
+        localStorage.setItem('carrito', JSON.stringify(props.carrito))
+
+        history.push('/pagoTarjeta')
     }
 
     return (
@@ -100,12 +109,4 @@ export default function Inventory(){
             </div>
         </div>
     )
-}
-
-export function proceedToPayment(items: Array<Card>){
-    var props = {
-        total: total,
-        carrito: cart
-    }
-    console.log(props);
 }

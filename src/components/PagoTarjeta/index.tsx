@@ -13,7 +13,9 @@ interface card {
   card_value: any,
   card_price: number
 }
-const PagoTarjeta = ({total, carrito}:init) => {
+const PagoTarjeta = () => {
+  var total = Number(localStorage.getItem('total'));
+  var carrito = JSON.parse(localStorage.getItem('carrito') || "{}");
   const { objeto,  handler} = usePagoTarjeta({total, carrito})
 
   const meses = ["Mes","01","02","03","04","05","06","07","08","09","10","11","12"]

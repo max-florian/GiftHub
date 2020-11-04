@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getUserId } from "../../utils/storage";
 import api from "../../utils/callApi";
 import { ChangeEvent } from "react";
+import { useHistory } from "react-router-dom";
 
 interface tarjeta {
   notarjeta:any,
@@ -22,6 +23,7 @@ interface Init{
 }
 
 const usePagoTarjeta = ({total,carrito}:Init) => {
+  var history = useHistory();
   const [tarjeta, setTarjeta] = useState<tarjeta>({
     notarjeta: "",
     mesvenc: "",
@@ -111,6 +113,7 @@ const usePagoTarjeta = ({total,carrito}:Init) => {
       }
     }
     send_paymentRequest(isNewCard)
+    history.replace('./home')
   }
 
   const send_paymentRequest = (isNewCard:boolean) => {
